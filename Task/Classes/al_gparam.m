@@ -80,6 +80,11 @@ classdef al_gparam
 
         commitHash % tracking version on GitHub
 
+        eyeTrackerTobii % indicates if experiment takes place with Tobii, which is a multi-computer setting
+        eyeTrackerTobiiTest % folder name on Tobii Pro Lab
+        localAddress % address for Matlab COmputer
+        TobiiAddress % address for Tobii Pro Lab
+
     end
     
     % Methods of the gparam object
@@ -146,6 +151,11 @@ classdef al_gparam
             self.baselineArousalDuration = 180;
             self.duckMovementFrequency = 0.1;
             self.duckMovementRange = 5;
+
+            self.eyeTrackerTobii = false;
+            self.eyeTrackerTobiiTest = nan;
+            self.localAddress = nan;
+            self.TobiiAddress = nan;
 
         end
     end

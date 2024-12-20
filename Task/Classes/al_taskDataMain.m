@@ -130,6 +130,11 @@ classdef al_taskDataMain
         % Online saccade detection
         sacc
 
+        % Titta Time Ref
+        TittaSysStartRef
+        startRef
+
+
     end
 
     % Methods of the taskDataMain object
@@ -246,6 +251,11 @@ classdef al_taskDataMain
 
             % Online saccade detection
             self.sacc = nan(trials, 1);
+
+            % Titta System Time Reference
+            % Matlab Time Reference
+            self.TittaSysStartRef = nan;
+            self.startRef = nan;
 
         end
 
@@ -844,6 +854,12 @@ classdef al_taskDataMain
                     s.passiveViewing = self.passiveViewing;
                     s.commitHash = self.commitHash; % todo: every version should finally have
                     % this
+
+                    % Putting Tobii here for now 
+                    % todo: determine if a new type is needed or just stack
+                    % it here
+                    s.TittaSysStartRef = self.TittaSysStartRef;
+                    s.startRef = self.startRef;
     
                 elseif isequal(self.taskType, 'HamburgEEG')
     

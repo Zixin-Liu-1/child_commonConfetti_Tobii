@@ -80,6 +80,12 @@ if ~exist('config', 'var') || isempty(config)
     config.noPtbWarnings = false;
     config.predSpotCircleTolerance = 2;
     
+    % for Tobii eyetracker
+    config.eyeTrackerTobii = false;
+    config.eyeTrackerTobiiTest = nan; 
+    config.localAddress = nan;
+    config.TobiiAddress = nan;
+    
     if config.sendTrigger
         [config.session, ~] = IOPort( 'OpenSerialPort', 'COM3' );
     else 
@@ -167,6 +173,11 @@ customInstructions = config.customInstructions;
 instructionText = config.instructionText;
 noPtbWarnings = config.noPtbWarnings;
 predSpotCircleTolerance = config.predSpotCircleTolerance;
+
+eyeTrackerTobii = config.eyeTrackerTobii;
+eyeTrackerTobiiTest = config.eyeTrackerTobiiTest; 
+localAddress = config.localAddress;
+TobiiAddress = config.TobiiAddress;
 
 % More general parameters
 % ----------------------
@@ -294,6 +305,11 @@ gParam.screenNumber = screenNumber;
 gParam.customInstructions = customInstructions;
 gParam.language = language;
 gParam.commitHash = al_getGitCommitHash();
+
+gParam.eyeTrackerTobii = eyeTrackerTobii;
+gParam.eyeTrackerTobiiTest = eyeTrackerTobiiTest;
+gParam.localAddress = localAddress;
+gParam.TobiiAddress = TobiiAddress;
 
 % Save directory
 cd(gParam.dataDirectory);
@@ -625,6 +641,10 @@ taskParam.unitTest = unitTest;
 taskParam.triggers = triggers;
 taskParam.eyeTracker = eyeTracker;
 taskParam.instructionText = instructionText;
+
+% Tobii
+taskParam.EThndl = nan;
+taskParam.talkToProLab = nan;
 
 % Check and update background rgb:
 % It turns out that depending on screen resolution, the exactly ideal

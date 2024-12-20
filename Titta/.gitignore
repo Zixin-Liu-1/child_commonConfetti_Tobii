@@ -1,0 +1,14 @@
+*.asv
+.DS*
+~*.m
+*.m~
+*.swp
+*.bak
+*.mat
+*.parq
+*.json
+*.tsv
+octave-workspace
+*.egg-info
+.venv*
+.vs/

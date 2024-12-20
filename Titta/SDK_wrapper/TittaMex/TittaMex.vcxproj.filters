@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="m-files">
+      <UniqueIdentifier>{ef56dcaa-ea4e-463b-ae32-1742c2ce7016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cpp_mex_helpers">
+      <UniqueIdentifier>{8c3aa2b8-6d27-4e0f-bca0-22fe5efa4700}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\pack_utils.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\is_specialization_trait.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\mex_input_getter.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\mex_type_utils.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\mex_type_utils_fwd.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\replace_specialization_type.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\always_false.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\include_matlab.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\invocable_traits.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\is_container_trait.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\get_field_nested.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\cpp_mex_helpers\mem_var_trait.h">
+      <Filter>Header Files\cpp_mex_helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\tobii_elem_count.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TittaMex.m">
+      <Filter>m-files</Filter>
+    </None>
+    <None Include="TittaMexDummyMode.m">
+      <Filter>m-files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TittaMex_.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

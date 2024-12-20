@@ -267,6 +267,11 @@ if taskParam.gParam.eyeTracker && isequal(taskParam.trialflow.exp, 'exp') || tas
     Eyelink('message', num2str(triggerID));
 end
 
+% Send in the trigger for Tobii
+if taskParam.gParam.eyeTrackerTobii && isequal(taskParam.trialflow.exp, 'exp') || taskParam.gParam.eyeTrackerTobii && isequal(taskParam.trialflow.exp, 'passive')
+    taskParam.talkToProLab.sendCustomEvent([],sprintf('Block %s Trial number %i Event %s',taskData.savename(end), trial, Tevent));
+end
+
 % Send the EEG trigger
 if taskParam.gParam.sendTrigger == true
     %     outp(taskParam.triggers.port, trigger); This is the Dresden version

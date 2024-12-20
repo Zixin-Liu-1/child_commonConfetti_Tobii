@@ -37,6 +37,9 @@ classdef al_timing
         movingDuck
         staticOutcome
         movingOutcome
+
+        refTitta % reference for timing when using Titta; timestamp recorded at the beginning of study
+
         
     end
     
@@ -78,6 +81,9 @@ classdef al_timing
             self.movingDuck = 1.0;
             self.staticOutcome = 1.0;
             self.movingOutcome = 1.0;
+
+            % Tobii
+            self.refTitta = 0;
         end
     end
 end

@@ -21,6 +21,9 @@ classdef al_objectClass
        display % display-object instance
        instructionText % instruction-text-object-instance
        unitTest % unit-test-object instance
+
+       EThndl % Titta handler
+       talkToProLab % Tobii Pro Lab
     end
 end
 

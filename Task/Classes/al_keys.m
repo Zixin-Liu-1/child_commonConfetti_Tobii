@@ -117,6 +117,12 @@ classdef al_keys
                     al_saveData(taskData)
                 end
 
+
+                % for Tobii, we save the entirety of the trial
+                if eyeTrackerTobii
+                    al_eyeTrackerTobii.saveTobiiData(taskParam);
+                end
+
                 ListenChar();
                 ShowCursor;
                 Screen('CloseAll');

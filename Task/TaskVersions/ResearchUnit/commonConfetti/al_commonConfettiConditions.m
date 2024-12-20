@@ -29,6 +29,11 @@ passiveViewingCondition = taskParam.gParam.passiveViewing;
 % Todo: turn on eye tracker for practice. To monitor saccades. Don't need
 % to save et though.
 
+% Tobii initialisation
+if taskParam.gParam.eyeTrackerTobii
+    taskParam = al_eyeTrackerTobii.startTobii(taskParam);
+end
+
 if runIntro && passiveViewingCondition == false
 
     al_commonConfettiInstructions(taskParam)
@@ -130,6 +135,12 @@ if taskParam.gParam.baselineArousal
     al_baselineArousal(taskParam, '_a2')
 
 end
+% ------------------------------
+% 6. wrapping up for Tobii
+% ------------------------------
+if taskParam.gParam.eyeTrackerTobii
+    al_eyeTrackerTobii.saveTobiiData(taskParam);
+end
 end
 
 
@@ -179,6 +190,10 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
 
         % Task-data-object instance
         taskData = al_taskDataMain(trial, taskParam.gParam.taskType);
+        
+        % Titta time reference
+        taskData.TittaSysStartRef = taskParam.timingParam.refTitta;
+        taskData.startRef = taskParam.timingParam.ref;
 
         % Generate outcomes using cannon-data function
         taskData = taskData.al_cannonData(taskParam, haz, concentration(noiseCondition), taskParam.gParam.safe);

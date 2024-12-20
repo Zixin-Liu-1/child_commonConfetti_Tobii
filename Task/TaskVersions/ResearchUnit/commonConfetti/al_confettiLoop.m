@@ -42,6 +42,8 @@ if taskParam.gParam.eyeTracker
     taskParam = taskParam.eyeTracker.startRecording(taskParam);
 end
 
+
+
 % Wait for scanner trigger
 if taskParam.gParam.scanner
 
@@ -73,6 +75,11 @@ if taskParam.gParam.eyeTracker && taskParam.gParam.onlineSaccades
     eyeused = Eyelink('EyeAvailable');
 end
 
+if taskParam.gParam.eyeTrackerTobii
+    al_eyeTrackerTobii.startTittaRecording(taskParam);
+end
+
+
 % Cycle over trials
 % -----------------
 
@@ -83,6 +90,8 @@ for i = 1:trial
         Eyelink('command', 'record_status_message "TRIAL %d/%d"', i, trial);
         Eyelink('message', 'TRIALID %d', i);
     end
+
+    
 
     % Save constant variables on each trial
     taskData.currTrial(i) = i;
