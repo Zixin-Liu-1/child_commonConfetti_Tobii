@@ -269,7 +269,15 @@ end
 
 % Send in the trigger for Tobii
 if taskParam.gParam.eyeTrackerTobii && isequal(taskParam.trialflow.exp, 'exp') || taskParam.gParam.eyeTrackerTobii && isequal(taskParam.trialflow.exp, 'passive')
-    taskParam.talkToProLab.sendCustomEvent([],sprintf('Block %s Trial number %i Event %s',taskData.savename(end), trial, Tevent));
+    if isequaln(condition, 'baselineArousal')
+        temp_Tevent = sprintf('Baseline Colour %s ID %i', Tevent, triggerID);
+    else
+        temp_name = taskData.savename;
+        temp_Tevent = sprintf('Block %s Trial number %i Event %s ID %i',temp_name(end), trial, Tevent, triggerID);
+    end
+    temp_Tevent = convertCharsToStrings(temp_Tevent);
+    taskParam.talkToProLab.sendCustomEvent([],temp_Tevent,[]);
+    
 end
 
 % Send the EEG trigger

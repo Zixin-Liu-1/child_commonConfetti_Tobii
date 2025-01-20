@@ -26,7 +26,12 @@ classdef al_eyeTrackerTobii
             
 
             % 1. get the settings, these are local variables
-            addTittaToPath;
+            try
+                addTittaToPath;
+            catch
+                warning('Titta is not in the folder.');
+            end
+            
             eyeTrackerSettings = Titta.getDefaults('Tobii Pro Spectrum'); % Use the model from the selected tracker
         
             % These settings are important for the calibration procedure

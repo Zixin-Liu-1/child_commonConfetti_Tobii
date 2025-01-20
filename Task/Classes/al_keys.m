@@ -91,6 +91,7 @@ classdef al_keys
             
             % Extract variables
             eyeTracker = taskParam.gParam.eyeTracker;
+            eyeTrackerTobii = taskParam.gParam.eyeTrackerTobii;
 
             % Check for quit
             [ ~, ~, keyCode] = KbCheck(self.kbDev);

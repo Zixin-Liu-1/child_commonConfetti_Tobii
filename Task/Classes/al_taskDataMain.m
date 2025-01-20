@@ -325,6 +325,11 @@ classdef al_taskDataMain
                     self.allShieldSize(i) = self.getShieldSize(taskParam.gParam.shieldMin, taskParam.gParam.shieldMax, taskParam.gParam.shieldMu);
                 elseif isequal(taskParam.trialflow.shield, 'variableWithSD')
                     self.allShieldSize(i) = self.getShieldSize(taskParam.gParam.shieldMin, taskParam.gParam.shieldMax, rad2deg(taskParam.circle.shieldFixedSizeFactor*sqrt(1/self.concentration(i))));
+                    % To ensure motivation in children, they will always
+                    % catch in catch trials
+                    if self.catchTrial(i) && taskparam.gParam.eyeTrackerTobii
+                        self.allShieldSize(i) = taskParam.gParam.shieldMax;
+                    end
                 else
                     self.allShieldSize(i) = rad2deg(taskParam.circle.shieldFixedSizeFactor*sqrt(1/self.concentration(i)));
                 end
