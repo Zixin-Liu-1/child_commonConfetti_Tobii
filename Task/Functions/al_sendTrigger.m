@@ -273,7 +273,7 @@ if taskParam.gParam.eyeTrackerTobii && isequal(taskParam.trialflow.exp, 'exp') |
         temp_Tevent = sprintf('Baseline Colour %s ID %i', Tevent, triggerID);
     else
         temp_name = taskData.savename;
-        temp_Tevent = sprintf('Block %s Trial number %i Event %s ID %i',temp_name(end), trial, Tevent, triggerID);
+        temp_Tevent = sprintf('Block %s Trial %i Event %s ID %i',temp_name(end), trial, Tevent, triggerID);
     end
     temp_Tevent = convertCharsToStrings(temp_Tevent);
     taskParam.talkToProLab.sendCustomEvent([],temp_Tevent,[]);
