@@ -38,7 +38,8 @@ classdef al_timing
         staticOutcome
         movingOutcome
 
-        refTitta % reference for timing when using Titta; timestamp recorded at the beginning of study
+        refTittaSys % reference for timing when using Titta; timestamp recorded when starting Titta
+        refTitta % time reference in the system of Titta
 
         
     end
@@ -83,6 +84,7 @@ classdef al_timing
             self.movingOutcome = 1.0;
 
             % Tobii
+            self.refTittaSys = 0;
             self.refTitta = 0;
         end
     end

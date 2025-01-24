@@ -121,7 +121,7 @@ classdef al_eyeTrackerTobii
     
             % Record reference time stamp, there is a 2ms delay for Tobii
             % Pro Lab
-            taskParam.timingParam.ref = GetSecs();
+            taskParam.timingParam.refTittaSys = GetSecs();
             taskParam.timingParam.refTitta = taskParam.EThndl.buffer.systemTimestamp();
             taskParam.talkToProLab.sendCustomEvent([], sprintf('Block %d Block Start Reference', taskParam.subject.startsWithBlock)); % by defalut, current time is taken. This appears in Tobii Pro Lab output
 

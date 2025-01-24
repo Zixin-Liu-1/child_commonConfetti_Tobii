@@ -130,9 +130,9 @@ classdef al_taskDataMain
         % Online saccade detection
         sacc
 
-        % Titta Time Ref
-        TittaSysStartRef
-        startRef
+        % Titta Time Refs
+        startRefTittaSys
+        startRefTitta
 
 
     end
@@ -254,8 +254,8 @@ classdef al_taskDataMain
 
             % Titta System Time Reference
             % Matlab Time Reference
-            self.TittaSysStartRef = nan;
-            self.startRef = nan;
+            self.startRefTittaSys = nan;
+            self.startRefTitta = nan;
 
         end
 
@@ -863,8 +863,8 @@ classdef al_taskDataMain
                     % Putting Tobii here for now 
                     % todo: determine if a new type is needed or just stack
                     % it here
-                    s.TittaSysStartRef = self.TittaSysStartRef;
-                    s.startRef = self.startRef;
+                    s.startRefTittaSys = self.startRefTittaSys;
+                    s.startRefTitta = self.startRefTitta;
     
                 elseif isequal(self.taskType, 'HamburgEEG')
     

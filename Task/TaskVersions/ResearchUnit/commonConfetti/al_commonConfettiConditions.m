@@ -192,8 +192,8 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
         taskData = al_taskDataMain(trial, taskParam.gParam.taskType);
         
         % Titta time reference
-        taskData.TittaSysStartRef = taskParam.timingParam.refTitta;
-        taskData.startRef = taskParam.timingParam.ref;
+        taskData.startRefTittaSys = taskParam.timingParam.refTittaSys;
+        taskData.startRefTitta = taskParam.timingParam.refTitta;
 
         % Generate outcomes using cannon-data function
         taskData = taskData.al_cannonData(taskParam, haz, concentration(noiseCondition), taskParam.gParam.safe);
