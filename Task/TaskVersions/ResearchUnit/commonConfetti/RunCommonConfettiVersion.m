@@ -508,8 +508,9 @@ else
 end
 
 % For the children version, intro will be skipped if starts in the middle
-if gParam.eyeTrackerTobii && ~(subject.startsWithBlock == 1)
+if gParam.eyeTrackerTobii && subject.startsWithBlock ~= 1
     gParam.runIntro = false;
+    disp(gParam.runIntro);
 end
 
 % ------------------
