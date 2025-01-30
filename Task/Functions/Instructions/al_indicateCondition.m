@@ -30,7 +30,7 @@ while 1
         break
     elseif keyCode(taskParam.keys.esc)
         % for Tobii, we save the entirety of the trial
-        if eyeTrackerTobii
+        if taskParam.gParam.eyeTrackerTobii
             al_eyeTrackerTobii.saveTobiiData(taskParam);
         end
         ListenChar();
