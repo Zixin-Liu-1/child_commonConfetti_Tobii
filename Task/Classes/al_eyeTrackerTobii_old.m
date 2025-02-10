@@ -14,7 +14,7 @@ classdef al_eyeTrackerTobii
     methods(Static)
 
         function taskParam = startTobii(taskParam)
-            % startTitta starts the Titta handler and uses it
+            % startTitta This function starts the Titta handler and uses it
             % to start talkToProLab function. Then it starts
             % calibration
             %
@@ -25,7 +25,7 @@ classdef al_eyeTrackerTobii
             %       taskParam: Task-parameter-object instance
             
 
-            % 1. Start Titta and get the settings, these are added from a local location
+            % 1. get the settings, these are local variables
             try
                 addTittaToPath;
             catch
@@ -33,81 +33,101 @@ classdef al_eyeTrackerTobii
             end
             
             eyeTrackerSettings = Titta.getDefaults('Tobii Pro Spectrum'); % Use the model from the selected tracker
-            
+        
+            % These settings are important for the calibration procedure
+        
+            calVidSize              = [100 100];
+        
             % request some debug output to command window, can skip for normal use
-            eyeTrackerSettings.debugMode    = true; % false
-            
+            eyeTrackerSettings.debugMode      = true; % false
+        
+            % customize colors of setup and calibration interface (colors of
+            % everything can be set, so there is a lot here).
+        
             % setup screen
-            fixClrs     = [0 255];
-            bgClr       = 125;
-            
+            fixClrs                         = [0 255];
+            bgClr                           = 125;
             eyeTrackerSettings.UI.setup.bgColor       = bgClr;
             eyeTrackerSettings.UI.setup.instruct.color= fixClrs(1);
             eyeTrackerSettings.UI.setup.fixBackColor  = fixClrs(1);
             eyeTrackerSettings.UI.setup.fixFrontColor = fixClrs(2);
-
-            
-            % 2. Initialisation with project settings through taskParam
-            taskParam.EThndl    = Titta(eyeTrackerSettings);
+        
+            % 2. init
+        
+            taskParam.EThndl          = Titta(eyeTrackerSettings);
+        
             temp_local_address = taskParam.gParam.localAddress;
+
             taskParam.EThndl.init(temp_local_address);
-            
-            % 3. Initialisation of Tobii Pro Lab 
-            % project name is passed on from taskParam
+                
+            % -------------------- 
+            % Now for Tobii Pro Lab
+  
+            % Create an instance of TalkToProLab with your project name on 
+            % different PC
+
             temp_Project = taskParam.gParam.eyeTrackerTobiiTest;
             temp_Tobii_Address = taskParam.gParam.TobiiAddress;
+
+    
+            if strcmp(temp_Project, 'test_alone_confetti')
+    
+                scrCoordinatesOperator  = [0 0 1920 1080]; % For Testing alone
+
+            else
+                scrCoordinatesOperator  = [1920 0 3840 1080]; % For Operator screen
+
+            end
+
             taskParam.talkToProLab = TalkToProLab(temp_Project, temp_Tobii_Address);
+            disp(class(taskParam.talkToProLab));
 
+   
 
-            % 4. Start Recording, first Titta, then Tobii Pro Lab
+            % then we initialse TobiiPro 
+        
+            DEBUGlevel              = 0;
+            useWindowedOperatorScreen = false; 
+            
+            % two screen setup
+            scrParticipant          = 0;
+            scrCoordinatesParticipant = [0 0 1920 1080];
+            scrOperator             = 0;
+            
             al_eyeTrackerTobii.startTittaRecording(taskParam);
+        
+            % taskParam.EThndl.buffer.startLogging(); % to record Events into buffer
+            % taskParam.EThndl.buffer.start('gaze');
+            % taskParam.EThndl.buffer.start('eyeOpenness');
+            % % Sanity check:
+            % if taskParam.EThndl.buffer.isRecording('gaze')
+            %     disp('gaze recording:');
+            % end
+            % if taskParam.EThndl.buffer.isRecording('eyeOpenness')
+            %     disp('eyeOpenness recording:');
+            % end
 
-            % Creating file name with the # of starting block
+            % calibration and subsequent recording is happening for each start, using flags for later data processing
+            % 1. create participant with participant info, include which block the
+            % participants start with, default being 1
             tempID = sprintf('commonConfetti_%s%s_%d',taskParam.subject.ID, '_et',taskParam.subject.startsWithBlock);
-            taskParam.talkToProLab.createParticipant(tempID, false); % false = does not allow dublicates
+            taskParam.talkToProLab.createParticipant(tempID, false); %false = does not allow dublicates
+
             
-            % Screen height and width
-            taskParam.talkToProLab.startRecording(tempID, taskParam.display.screensizePart(1), taskParam.display.screensizePart(2));
-            
-            
-            % 5. Record reference time stamp, there is a 2ms delay for Tobii Pro Lab
+    
+            % 2. start recording
+ 
+            taskParam.talkToProLab.startRecording(tempID, taskParam.display.screensizePart(1), taskParam.display.screensizePart(2)); 
+    
+            % Record reference time stamp, there is a 2ms delay for Tobii
+            % Pro Lab
             taskParam.timingParam.refTittaSys = GetSecs();
             taskParam.timingParam.refTitta = taskParam.EThndl.buffer.systemTimestamp();
             taskParam.talkToProLab.sendCustomEvent([], sprintf('Block %d Block Start Reference', taskParam.subject.startsWithBlock)); % by defalut, current time is taken. This appears in Tobii Pro Lab output
 
-        end
-
-        function taskParam = startTobiiCalibration(taskParam)
-            % startTobiiCalibration starts the calibration process
-            % 
-            %
-            %   Input
-            %       taskParam: Task-parameter-object instance
-            
-            % 1. Parameters for calibration
-            
-            DEBUGlevel = 0;
-            bgClr = 125;
-            useWindowedOperatorScreen = false; 
-        
-            % Screen setup for Linux
-            % If testing alone, set coordinate screen and participant
-            % screen to one, only works with two 1920x1080 screens
-            % Change for resolution settings
-            temp_Project = taskParam.gParam.eyeTrackerTobiiTest;
-            
-            if strcmp(temp_Project, 'test_alone_confetti')
-                scrCoordinatesOperator = [0 0 1920 1080];
-            else
-                scrCoordinatesOperator = [1920 0 3840 1080];
-            end
-           
-            scrParticipant          = 0;
-            scrCoordinatesParticipant = [0 0 1920 1080];
-            scrOperator             = 0;
 
         
-            % 2. Calibration process
+            % Now we start the calibration process
             try
                 
                 % get setup struct (can edit that of course):
@@ -141,7 +161,8 @@ classdef al_eyeTrackerTobii
                 else
                     [wpntO,winRectO] = PsychImaging('OpenWindow', scrOperator, bgClr,scrCoordinatesOperator, [], [], [], 4);
                 end
-
+            
+            
                 hz=Screen('NominalFrameRate', wpntP);
                 
                 Priority(1);
@@ -167,6 +188,7 @@ classdef al_eyeTrackerTobii
             
                 tobii.calVal{1} = taskParam.EThndl.calibrateAdvanced([wpntP wpntO]);
                 ListenChar(0);
+            
             
                 Screen('Close', wpntO);
                 Screen('Close', wpntP);  
