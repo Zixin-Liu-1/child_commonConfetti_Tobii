@@ -106,7 +106,6 @@ classdef al_eyeTrackerTobii
             scrCoordinatesParticipant = [0 0 1920 1080];
             scrOperator             = 0;
 
-        
             % 2. Calibration process
             try
                 
@@ -233,13 +232,9 @@ classdef al_eyeTrackerTobii
             catch
                 warning('Session data not saved using Tobii Pro Lab');
             end
-            
-            
+           
             taskParam.talkToProLab.disconnect();
             taskParam.EThndl.deInit();
-
-
-
 
         end
         
