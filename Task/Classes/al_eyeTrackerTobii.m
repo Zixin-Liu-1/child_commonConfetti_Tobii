@@ -32,23 +32,24 @@ classdef al_eyeTrackerTobii
                 warning('Titta is not in the folder.');
             end
             
-            eyeTrackerSettings = Titta.getDefaults('Tobii Pro Spectrum'); % Use the model from the selected tracker
+            temp_eyeTrackerSettings = Titta.getDefaults('Tobii Pro Spectrum'); % Use the model from the selected tracker
             
             % request some debug output to command window, can skip for normal use
-            eyeTrackerSettings.debugMode    = true; % false
+            temp_eyeTrackerSettings.debugMode    = true; % false
+            temp_eyeTrackerSettings.freq = 1200;
             
-            % setup screen
+            % setup screen colour here to start Titta
             fixClrs     = [0 255];
             bgClr       = 125;
             
-            eyeTrackerSettings.UI.setup.bgColor       = bgClr;
-            eyeTrackerSettings.UI.setup.instruct.color= fixClrs(1);
-            eyeTrackerSettings.UI.setup.fixBackColor  = fixClrs(1);
-            eyeTrackerSettings.UI.setup.fixFrontColor = fixClrs(2);
+            temp_eyeTrackerSettings.UI.setup.bgColor       = bgClr;
+            temp_eyeTrackerSettings.UI.setup.instruct.color= fixClrs(1);
+            temp_eyeTrackerSettings.UI.setup.fixBackColor  = fixClrs(1);
+            temp_eyeTrackerSettings.UI.setup.fixFrontColor = fixClrs(2);
 
             
             % 2. Initialisation with project settings through taskParam
-            taskParam.EThndl    = Titta(eyeTrackerSettings);
+            taskParam.EThndl    = Titta(temp_eyeTrackerSettings);
             temp_local_address = taskParam.gParam.localAddress;
             taskParam.EThndl.init(temp_local_address);
             
@@ -70,7 +71,7 @@ classdef al_eyeTrackerTobii
             taskParam.talkToProLab.startRecording(tempID, taskParam.display.screensizePart(1), taskParam.display.screensizePart(2));
             
             
-            % 5. Record reference time stamp, there is a 2ms delay for Tobii Pro Lab
+            % 5. Record reference time stamp, there is a 2 microseconds delay for Tobii Pro Lab
             taskParam.timingParam.refTittaSys = GetSecs();
             taskParam.timingParam.refTitta = taskParam.EThndl.buffer.systemTimestamp();
             taskParam.talkToProLab.sendCustomEvent([], sprintf('Block %d Block Start Reference', taskParam.subject.startsWithBlock)); % by defalut, current time is taken. This appears in Tobii Pro Lab output
