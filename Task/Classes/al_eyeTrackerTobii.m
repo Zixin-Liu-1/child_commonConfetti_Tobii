@@ -86,6 +86,18 @@ classdef al_eyeTrackerTobii
             %   Input
             %       taskParam: Task-parameter-object instance
             
+            temp_screenSize = [taskParam.display.screensize(1),taskParam.display.screensize(2),taskParam.display.screensize(3),taskParam.display.screensize(4)];
+            openWindows = Screen('Windows');
+            
+            if ~isempty(openWindows)
+                win = openWindows(1);  % Get the first open window
+                disp(['Detected window: ', num2str(win)]);
+            else
+                disp('No open windows found!');
+            end
+            
+            % remove mouse confinement
+            Screen('ConstrainCursor', win, 0)
             
             % Provide a choice for calibration process
             prompt = {'Do you want to calibrate? (Y/N)'};
@@ -95,13 +107,14 @@ classdef al_eyeTrackerTobii
             answer = inputdlg(prompt,dlgtitle,fieldsize,definput);
 
             if ~(strcmp(answer, "N") | strcmp(answer, "n"))
-                
                 if ~strcmp(answer, "Y")
                     disp('Invalid input. Starting the calibration.');
                 end
-
                 al_eyeTrackerTobii.tittaTobiiCalibration(taskParam);           
             end
+            
+            % Then add it back in
+            Screen('ConstrainCursor', win, 1, temp_screenSize)
         end
 
         
