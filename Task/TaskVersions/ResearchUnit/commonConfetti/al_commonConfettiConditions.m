@@ -87,8 +87,10 @@ taskParam.cannon = taskParam.cannon.al_staticConfettiCloud(taskParam.trialflow.c
 
 if taskParam.gParam.baselineArousal && taskParam.subject.startsWithBlock == 1
 
-    % Calibration for Tobii Pro Lab before arousal
-    taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+    if taskParam.gParam.eyeTrackerTobii
+        % Calibration for Tobii Pro Lab before arousal
+        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+    end
 
     % Display pupil info
     if taskParam.gParam.customInstructions
@@ -172,8 +174,8 @@ totWin = 0;
 % Create data structure combining all blocks for integration test
 allTaskData = struct();
 
-% Calibration for Tobii Pro Lab when start in the middle
-if ~(taskParam.subject.startsWithBlock == 1)
+% Calibration for Tobii Pro Lab
+if taskParam.gParam.eyeTrackerTobii
     taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
 end
 

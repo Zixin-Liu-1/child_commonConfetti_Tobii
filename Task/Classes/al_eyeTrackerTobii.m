@@ -79,14 +79,40 @@ classdef al_eyeTrackerTobii
         end
 
         function taskParam = startTobiiCalibration(taskParam)
-            % startTobiiCalibration starts the calibration process
+            % startTobiiCalibration starts the calibration process with
+            % user input. 
             % 
             %
             %   Input
             %       taskParam: Task-parameter-object instance
             
-            % 1. Parameters for calibration
             
+            % Provide a choice for calibration process
+            prompt = {'Do you want to calibrate? (Y/N)'};
+            dlgtitle = 'Calibration?';
+            fieldsize = [1 45];
+            definput = {'Y'};
+            answer = inputdlg(prompt,dlgtitle,fieldsize,definput);
+
+            if ~(strcmp(answer, "N") | strcmp(answer, "n"))
+                
+                if ~strcmp(answer, "Y")
+                    disp('Invalid input. Starting the calibration.');
+                end
+
+                al_eyeTrackerTobii.tittaTobiiCalibration(taskParam);           
+            end
+        end
+
+        
+
+        function tittaTobiiCalibration(taskParam)
+            % tittaTobiiCalibration handles calibration
+            % 
+            %
+            %   Input
+            %       taskParam: Task-parameter-object instance
+            % 1. Parameters for calibration
             DEBUGlevel = 0;
             bgClr = 125;
             useWindowedOperatorScreen = false; 
@@ -107,11 +133,8 @@ classdef al_eyeTrackerTobii
             scrCoordinatesParticipant = [0 0 1920 1080];
             scrOperator             = 0;
 
-            % 2. Calibration process
+            % 2.Calibration process
             try
-                
-                % get setup struct (can edit that of course):
-            
                 if DEBUGlevel>1
                     % make screen partially transparent on OSX and windows vista or
                     % higher, so we can debug.
@@ -125,7 +148,6 @@ classdef al_eyeTrackerTobii
                     % Only output critical errors and warnings.
                     Screen('Preference', 'Verbosity', 2);
                 end
-            
             
                 Screen('Preference', 'SyncTestSettings', 0.002);    % the systems are a little noisy, give the test a little more leeway
                 
@@ -178,12 +200,13 @@ classdef al_eyeTrackerTobii
                 rethrow(me)
             
             end
-
-           
-           
         end
-
+        
+        
         function startTittaRecording(taskParam)
+            % Strat Titta recording
+            %
+            %
 
             taskParam.EThndl.buffer.startLogging(); % to record Events into buffer
             taskParam.EThndl.buffer.start('gaze');
