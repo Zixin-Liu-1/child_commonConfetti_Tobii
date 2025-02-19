@@ -103,18 +103,13 @@ classdef al_eyeTrackerTobii
             prompt = {'Do you want to calibrate? (Y/N)'};
             dlgtitle = 'Calibration?';
             fieldsize = [1 45];
-            definput = {'Y'};
+            definput = {'Press cancel to cancel calibration.'};
             answer = inputdlg(prompt,dlgtitle,fieldsize,definput);
 
-            if ~(strcmp(answer, "N") | strcmp(answer, "n"))
-                if ~strcmp(answer, "Y")
-                    disp('Invalid input. Starting the calibration.');
-                end
+            if ~isempty(answer)
                 al_eyeTrackerTobii.tittaTobiiCalibration(taskParam);           
             end
             
-            % Then add it back in
-            Screen('ConstrainCursor', win, 1, temp_screenSize)
         end
 
         
