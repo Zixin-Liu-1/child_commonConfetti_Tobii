@@ -174,10 +174,7 @@ totWin = 0;
 % Create data structure combining all blocks for integration test
 allTaskData = struct();
 
-% Calibration for Tobii Pro Lab
-if taskParam.gParam.eyeTrackerTobii
-    taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-end
+
 
 % Loop over blocks
 for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
@@ -236,6 +233,11 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
         fieldName = sprintf('highNoiseBlock%d', b);
     end
 
+    % Calibration for Tobii Pro Lab
+    if taskParam.gParam.eyeTrackerTobii
+        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+    end
+    
     % Run task
     data = al_confettiLoop(taskParam, 'main', taskData, trial, file_name_suffix);
 
