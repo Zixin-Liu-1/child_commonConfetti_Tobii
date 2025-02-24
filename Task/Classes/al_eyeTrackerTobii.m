@@ -99,17 +99,26 @@ classdef al_eyeTrackerTobii
             % remove mouse confinement
             Screen('ConstrainCursor', win, 0)
             
-            % Provide a choice for calibration process
-            prompt = {'Do you want to calibrate? (Y/N)'};
-            dlgtitle = 'Calibration?';
-            fieldsize = [1 45];
-            definput = {'Press cancel to cancel calibration.'};
-            answer = inputdlg(prompt,dlgtitle,fieldsize,definput);
+            % To remove the scenario of "don't want to calibrate because of
+            % pressing too much Enter"
+            while 1
+                % Provide a choice for calibration process
+                prompt = {'Do you want to calibrate? (Y/N)'};
+                dlgtitle = 'Calibration?';
+                fieldsize = [1 45];
+                definput = {''};
+                answer = inputdlg(prompt,dlgtitle,fieldsize,definput);
 
-            if ~isempty(answer)
-                al_eyeTrackerTobii.tittaTobiiCalibration(taskParam);           
+                if ~isempty(answer) && strcmp(answer{1},"Y")
+                    al_eyeTrackerTobii.tittaTobiiCalibration(taskParam);
+                    break;
+                end
+
+                if ~isempty(answer) && strcmp(answer{1},"N")
+                    disp("Skipped calibration.");
+                    break,
+                end
             end
-            
         end
 
         
