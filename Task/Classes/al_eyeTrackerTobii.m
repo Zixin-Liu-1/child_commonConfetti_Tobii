@@ -17,61 +17,6 @@ classdef al_eyeTrackerTobii
     % Methods of the eye-tracker object
     % --------------------------------- 
     
-    methods
-
-        function self = al_eyeTrackerTobii()
-            % This function creates an object of
-            % class al_eyeTracker
-
-            self.et_file_name = "";
-        end
-
-        function startTittaRecording(taskParam, file_name_suffix)
-            % This function starts Titta recording in the buffer
-            %
-            %
-
-            taskParam.EThndl.buffer.startLogging(); % to record Events into buffer
-            taskParam.EThndl.buffer.start('gaze');
-            taskParam.EThndl.buffer.start('eyeOpenness');
-            % Sanity check:
-            if taskParam.EThndl.buffer.isRecording('gaze')
-                disp('gaze recording:');
-            end
-            if taskParam.EThndl.buffer.isRecording('eyeOpenness')
-                disp('eyeOpenness recording:');
-            end
-
-            self.et_file_name = sprintf('commonConfetti_%s%s%d',taskParam.subject.ID, '_et',file_name_suffix);
-        
-        end
-        
-        
-        function saveTittaData(taskParam)
-            % This function stops Titta recording in buffer and save Titta data for each
-            % block to avoid memory problems
-            %
-            %
-            
-            disp('Saving Tobii eyetracking data using Titta.');
-            try
-                % Saving the data on Matlab Computer
-                temp_session_data = taskParam.EThndl.collectSessionData();
-                                
-                tempID = self.et_file_name;
-                                
-                taskParam.EThndl.saveData(temp_session_data, [taskParam.gParam.dataDirectory, tempID]);
-                
-                disp('Session data saved successfully using Titta.');
-            
-            catch 
-                warning('Session data not saved using Titta.');
-            end
-
-        end
-
-    end
-
     
     methods(Static)
 
@@ -122,10 +67,7 @@ classdef al_eyeTrackerTobii
             taskParam.talkToProLab = TalkToProLab(temp_Project, temp_Tobii_Address);
 
 
-            % 4. Start Recording, first Titta...
-            al_eyeTrackerTobii.startTittaRecording(taskParam);
-
-            % ...then Tobii, creating file name with the # of starting block
+            % 4. Start Recording, for Tobii, creating file name with the # of starting block
             tempID = sprintf('commonConfetti_%s%s_%d',taskParam.subject.ID, '_et',taskParam.subject.startsWithBlock);
             taskParam.talkToProLab.createParticipant(tempID, false); % false = does not allow dublicates
             
@@ -177,9 +119,9 @@ classdef al_eyeTrackerTobii
                 fieldsize = [1 45];
                 definput = {''};
                 % Remove keyboard confinement temporarily
-                %ListenChar(0);
+                ListenChar(0);
                 answer = inputdlg(prompt,dlgtitle,fieldsize,definput);
-                %ListenChar(2);
+                ListenChar(2);
 
                 if ~isempty(answer) && strcmp(answer{1},"Y")
                     al_eyeTrackerTobii.tittaTobiiCalibration(taskParam);
@@ -294,6 +236,27 @@ classdef al_eyeTrackerTobii
         end
         
 
+        function startTittaRecording(taskParam, file_name_suffix)
+            % This function starts Titta recording in the buffer
+            %
+            %
+            
+            taskParam.EThndl.buffer.startLogging(); % to record Events into buffer
+            taskParam.EThndl.buffer.start('gaze');
+            taskParam.EThndl.buffer.start('eyeOpenness');
+            % Sanity check:
+            if taskParam.EThndl.buffer.isRecording('gaze')
+                disp('gaze recording:');
+            end
+            if taskParam.EThndl.buffer.isRecording('eyeOpenness')
+                disp('eyeOpenness recording:');
+            end
+
+            self.et_file_name = sprintf('commonConfetti_%s%s%d',taskParam.subject.ID, '_et',file_name_suffix);
+        
+        end
+
+
         function saveTobiiData(taskParam)
             % This function saves the Tobii eye-tracking data using
             % Titta at the END of the experiment
@@ -321,6 +284,41 @@ classdef al_eyeTrackerTobii
             taskParam.EThndl.deInit();
 
         end
+
+
+        function saveTittaData(taskParam)
+            % This function stops Titta recording in buffer and save Titta data for each
+            % block to avoid memory problems
+            %
+            %
+            
+            disp('Saving Tobii eyetracking data using Titta.');
+            try
+                taskParam.EThndl.stop('gaze');
+                askParam.EThndl.stop('eyeOpenness');
+                disp("stopped on collect data");
+                % Saving the data on Matlab Computer
+                temp_session_data = taskParam.EThndl.collectSessionData();
+                disp("stopped on creating variable");
+                                
+                % try
+                %     tempID = self.et_file_name;
+                % catch
+                %     warning('Not in a Block or Baseline.');
+                     tempID = "_notData";
+                % end
+                disp("stopped on saveData");             
+                taskParam.EThndl.saveData(temp_session_data, [taskParam.gParam.dataDirectory, tempID]);
+                
+                
+                disp('Session data saved successfully using Titta.');
+            
+            catch 
+                warning('Session data not saved using Titta.');
+            end
+
+        end
+
 
         function restrictMouse(screensize)
             % This function restricts the mouse for the children

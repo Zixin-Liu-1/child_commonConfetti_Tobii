@@ -31,9 +31,6 @@ passiveViewingCondition = taskParam.gParam.passiveViewing;
 
 % eyetracker Tobii initiation
 if taskParam.gParam.eyeTrackerTobii
-    % Initialise al_eyeTrackerTobii()
-    eyeTrackerTobii = al_eyeTrackerTobii();
-    eyeTrackerTobii.et_file_name = "";
     taskParam = al_eyeTrackerTobii.startTobii(taskParam);
 end
 
