@@ -5,13 +5,7 @@ classdef al_eyeTrackerTobii
     %
     %  
 
-    % Properties of the eye-tracker object
-    % ------------------------------------
-
-    properties
-
-        et_file_name % current file name
-    end
+    
 
 
     % Methods of the eye-tracker object
@@ -60,6 +54,7 @@ classdef al_eyeTrackerTobii
             temp_local_address = taskParam.gParam.localAddress;
             taskParam.EThndl.init(temp_local_address);
             
+            
             % 3. Initialisation of Tobii Pro Lab 
             % project name is passed on from taskParam
             temp_Project = taskParam.gParam.eyeTrackerTobiiTest;
@@ -77,11 +72,11 @@ classdef al_eyeTrackerTobii
             % 5. Record reference time stamp, there is a 2 microseconds delay for Tobii Pro Lab
             taskParam.timingParam.refTittaSys = GetSecs();
             taskParam.timingParam.refTitta = taskParam.EThndl.buffer.systemTimestamp();
-            taskParam.talkToProLab.sendCustomEvent([], sprintf('Block %d Block Start Reference', taskParam.subject.startsWithBlock)); % by defalut, current time is taken. This appears in Tobii Pro Lab output
+            taskParam.talkToProLab.sendCustomEvent([], sprintf('Start Ref start with Block %d', taskParam.subject.startsWithBlock)); % by defalut, current time is taken. This appears in Tobii Pro Lab output
 
             % 6. Change the Intro status based on which block to start
             % For the children version, intro will be skipped if starts in the middle
-            if taskParam.gParam.eyeTrackerTobii && taskParam.subject.startsWithBlock ~= 1
+            if isstring(taskParam.gParam.eyeTrackerTobiiTest) && taskParam.subject.startsWithBlock ~= 1
                 taskParam.gParam.runIntro = false;
                 disp("Skipping Intro");
             end
@@ -236,7 +231,7 @@ classdef al_eyeTrackerTobii
         end
         
 
-        function startTittaRecording(taskParam, file_name_suffix)
+        function startTittaRecording(taskParam)
             % This function starts Titta recording in the buffer
             %
 
@@ -250,39 +245,37 @@ classdef al_eyeTrackerTobii
             if taskParam.EThndl.buffer.isRecording('eyeOpenness')
                 disp('eyeOpenness recording:');
             end
-
-            self.et_file_name = sprintf('commonConfetti_%s%s%d',taskParam.subject.ID, '_et',file_name_suffix);
         
         end
 
 
-        function saveTittaData(taskParam)
+        function saveTittaData(taskParam, file_name_suffix)
             % This function stops Titta recording in buffer and save Titta data for each
             % block to avoid memory problems
             %
-           
+            
             disp('Saving Tobii eyetracking data using Titta.');
             try
-                taskParam.EThndl.stop('gaze');
-                taskParam.EThndl.stop('eyeOpenness');
+                % collecting data for this session.
+                taskParam.EThndl.buffer.stop('gaze');
+                taskParam.EThndl.buffer.stop('eyeOpenness');
+                temp_session_data = taskParam.EThndl.collectSessionData();
+                
+                % Saving the data on Matlab Computer                
+                try
+                    tempID = sprintf('commonConfetti_%s%s%s',taskParam.subject.ID, '_et',file_name_suffix(end-2:end));
+                catch
+                    warning('Not in Baseline or a block.');
+                    tempID = sprintf('commonConfetti_%s%s%s',taskParam.subject.ID, '_et','_notData');
+                end
+
             catch
-                disp("stopped on stop collection");
+                warning('Session data not collected using Titta.');
             end
+
             
             try
-                % Saving the data on Matlab Computer
-                temp_session_data = taskParam.EThndl.collectSessionData();
-            catch
-                disp("stopped on collectSessionData()");
-            end
-                                
-                % try
-                %     tempID = self.et_file_name;
-                % catch
-                %     warning('Not in a Block or Baseline.');
-            tempID = "_notData";
-                % end
-            try           
+                % saving the data for this session
                 taskParam.EThndl.saveData(temp_session_data, [taskParam.gParam.dataDirectory, tempID]);
                 disp('Session data saved successfully using Titta.');
             catch 
@@ -325,7 +318,7 @@ classdef al_eyeTrackerTobii
             % This function restricts the mouse for the children
             %
             %   Input
-            %       taskParam: Task-parameter-object instance
+            %       screensize: parameters of the participant screen
             %
             %   Output
             %       None
@@ -345,6 +338,7 @@ classdef al_eyeTrackerTobii
                 Screen('ConstrainCursor', win, 1, temp_screenSize);
             
         end
+
 
         function sendEvent(taskParam, condition, Tevent, triggerID, trial, taskData)
             % sendEvent handles sending triggers to Tobii Pro Lab and Titta

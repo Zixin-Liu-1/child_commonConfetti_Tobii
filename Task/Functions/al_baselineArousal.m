@@ -22,7 +22,7 @@ end
 % Calibration for Tobii Pro Lab before arousal
 if taskParam.gParam.eyeTrackerTobii
     taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-    al_eyeTrackerTobii.startTittaRecording(taskParam,file_name_suffix);
+    al_eyeTrackerTobii.startTittaRecording(taskParam);
 end
 
 % Define color and random color order (black and white)
@@ -90,7 +90,7 @@ end
 % Save Titta data
 % -----------------
 if taskParam.gParam.eyeTrackerTobii
-    al_eyeTrackerTobii.saveTittaData(taskParam);
+    al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
 end
 
 

@@ -121,7 +121,7 @@ classdef al_keys
 
                 % for Tobii, we save the entirety of the trial
                 if eyeTrackerTobii
-                    al_eyeTrackerTobii.saveTittaData(taskParam);
+                    al_eyeTrackerTobii.saveTittaData(taskParam,taskData.savename);
                     al_eyeTrackerTobii.saveTobiiData(taskParam);
                 end
 
