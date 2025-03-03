@@ -23,17 +23,9 @@ end
 % Extract screen coordinates
 screensize = taskParam.display.screensize;
 
-% add in a restriction of mouse for multi-screens
-if taskParam.gParam.eyeTrackerTobii
-    temp_screenSize = [screensize(1),screensize(2),screensize(3)-100,screensize(4)];
-    openWindows = Screen('Windows');
-    if ~isempty(openWindows)
-        win = openWindows(1);  % Get the first open window
-        disp(['Detected window: ', num2str(win)]);
-    else
-        disp('No open windows found!');
-    end
-    Screen('ConstrainCursor', win, 1, temp_screenSize);
+% add in a restriction of mouse for children's multi-screens
+if isstring(taskParam.gParam.eyeTrackerTobiiTest)
+    al_eyeTrackerTobii.restrictMouse(screensize);
 end
 
 while 1

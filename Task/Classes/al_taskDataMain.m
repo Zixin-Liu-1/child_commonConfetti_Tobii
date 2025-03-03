@@ -327,7 +327,7 @@ classdef al_taskDataMain
                     self.allShieldSize(i) = self.getShieldSize(taskParam.gParam.shieldMin, taskParam.gParam.shieldMax, rad2deg(taskParam.circle.shieldFixedSizeFactor*sqrt(1/self.concentration(i))));
                     % To ensure motivation in children, they will always
                     % catch in catch trials
-                    if self.catchTrial(i) && taskParam.gParam.eyeTrackerTobii
+                    if self.catchTrial(i) && isstring(taskParam.gParam.eyeTrackerTobiiTest)
                         self.allShieldSize(i) = taskParam.gParam.shieldMax;
                     end
                 else

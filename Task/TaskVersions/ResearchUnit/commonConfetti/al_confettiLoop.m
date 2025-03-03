@@ -42,7 +42,11 @@ if taskParam.gParam.eyeTracker
     taskParam = taskParam.eyeTracker.startRecording(taskParam);
 end
 
-
+% Ask for calibration and start recording Titta data into buffer
+if taskParam.gParam.eyeTrackerTobii
+    taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+    al_eyeTrackerTobii.startTittaRecording(taskParam, file_name_suffix);
+end
 
 % Wait for scanner trigger
 if taskParam.gParam.scanner
@@ -74,11 +78,6 @@ taskData.commitHash = taskParam.gParam.commitHash;
 if taskParam.gParam.eyeTracker && taskParam.gParam.onlineSaccades
     eyeused = Eyelink('EyeAvailable');
 end
-
-if taskParam.gParam.eyeTrackerTobii
-    al_eyeTrackerTobii.startTittaRecording(taskParam);
-end
-
 
 % Cycle over trials
 % -----------------
@@ -447,6 +446,12 @@ if ~taskParam.unitTest.run
         et_file_name=[taskParam.eyeTracker.et_file_name, '.edf'];
         al_saveEyelinkData(et_path, et_file_name)
         Eyelink('StopRecording');
+    end
+
+    % Save Titta data
+    % -----------------
+    if taskParam.gParam.eyeTrackerTobii
+        al_eyeTrackerTobii.saveTittaData(taskParam);
     end
 
     % Save behavioral data

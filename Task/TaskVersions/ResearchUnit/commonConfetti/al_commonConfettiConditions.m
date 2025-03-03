@@ -29,8 +29,11 @@ passiveViewingCondition = taskParam.gParam.passiveViewing;
 % Todo: turn on eye tracker for practice. To monitor saccades. Don't need
 % to save et though.
 
-% Tobii initiation
+% eyetracker Tobii initiation
 if taskParam.gParam.eyeTrackerTobii
+    % Initialise al_eyeTrackerTobii()
+    eyeTrackerTobii = al_eyeTrackerTobii();
+    eyeTrackerTobii.et_file_name = "";
     taskParam = al_eyeTrackerTobii.startTobii(taskParam);
 end
 
@@ -86,11 +89,6 @@ taskParam.cannon = taskParam.cannon.al_staticConfettiCloud(taskParam.trialflow.c
 % ------------------------------
 
 if taskParam.gParam.baselineArousal && taskParam.subject.startsWithBlock == 1
-
-    if taskParam.gParam.eyeTrackerTobii
-        % Calibration for Tobii Pro Lab before arousal
-        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-    end
 
     % Display pupil info
     if taskParam.gParam.customInstructions
@@ -233,11 +231,6 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
         fieldName = sprintf('highNoiseBlock%d', b);
     end
 
-    % Calibration for Tobii Pro Lab
-    if taskParam.gParam.eyeTrackerTobii
-        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-    end
-    
     % Run task
     data = al_confettiLoop(taskParam, 'main', taskData, trial, file_name_suffix);
 

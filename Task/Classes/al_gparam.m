@@ -82,7 +82,7 @@ classdef al_gparam
 
         eyeTrackerTobii % indicates if experiment takes place with Tobii, which is a multi-computer setting
         eyeTrackerTobiiTest % folder name on Tobii Pro Lab
-        localAddress % address for Matlab COmputer
+        localAddress % address for Matlab Computer
         TobiiAddress % address for Tobii Pro Lab
 
     end

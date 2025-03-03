@@ -71,6 +71,7 @@ while 1
         break
     elseif keyCode(taskParam.keys.esc)
         if taskParam.gParam.eyeTrackerTobii
+            al_eyeTrackerTobii.saveTittaData(taskParam);
             al_eyeTrackerTobii.saveTobiiData(taskParam);
         end
         ListenChar();

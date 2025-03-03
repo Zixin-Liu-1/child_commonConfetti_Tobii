@@ -267,17 +267,9 @@ if taskParam.gParam.eyeTracker && isequal(taskParam.trialflow.exp, 'exp') || tas
     Eyelink('message', num2str(triggerID));
 end
 
-% Send in the trigger for Tobii
-if taskParam.gParam.eyeTrackerTobii && isequal(taskParam.trialflow.exp, 'exp') || taskParam.gParam.eyeTrackerTobii && isequal(taskParam.trialflow.exp, 'passive')
-    if isequaln(condition, 'baselineArousal')
-        temp_Tevent = sprintf('Baseline Colour %s ID %i', Tevent, triggerID);
-    else
-        temp_name = taskData.savename;
-        temp_Tevent = sprintf('Block %s Trial %i Event %s ID %i',temp_name(end), trial, Tevent, triggerID);
-    end
-    temp_Tevent = convertCharsToStrings(temp_Tevent);
-    taskParam.talkToProLab.sendCustomEvent([],temp_Tevent,[]);
-    
+% Send in the trigger for Tobii Pro Lab and Titta
+if taskParam.gParam.eyeTrackerTobii
+    al_eyeTrackerTobii.sendEvent(taskParam, condition, Tevent, triggerID, trial, taskData);
 end
 
 % Send the EEG trigger

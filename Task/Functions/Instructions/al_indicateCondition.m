@@ -29,7 +29,7 @@ while 1
         WaitSecs(1);
         break
     elseif keyCode(taskParam.keys.esc)
-        % for Tobii, we save the entirety of the trial
+        % Close Tobii using Titta
         if taskParam.gParam.eyeTrackerTobii
             al_eyeTrackerTobii.saveTobiiData(taskParam);
         end
