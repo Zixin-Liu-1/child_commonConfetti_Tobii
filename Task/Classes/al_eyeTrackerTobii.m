@@ -15,9 +15,8 @@ classdef al_eyeTrackerTobii
     methods(Static)
 
         function taskParam = startTobii(taskParam)
-            % startTitta starts the Titta handler and uses it
-            % to start talkToProLab function. Then it starts
-            % calibration
+            % startTobii first checks the ID. Then it starts the Titta handler and uses it
+            % to start talkToProLab function. 
             %
             %   Input
             %       taskParam: Task-parameter-object instance
@@ -25,6 +24,23 @@ classdef al_eyeTrackerTobii
             %   Output
             %       taskParam: Task-parameter-object instance
             
+            
+            % 0. Check if ID is for children and if Tobii is required
+            if ~strncmp(taskParam.subject.ID, '62',2)
+                error('Invalid ID! Format should be 62xxx');
+            end
+
+            % Change the Intro status based on which block to start
+            % For the children version, intro will be skipped if starts in the middle
+            if taskParam.subject.startsWithBlock ~= 1
+                taskParam.gParam.runIntro = false;
+                disp("Skipping Intro");
+            end
+
+            if ~taskParam.gParam.eyeTrackerTobii
+                disp('Not using Tobii for this task.');
+                return;
+            end
 
             % 1. Start Titta and get the settings, these are added from a local location
             try
@@ -74,12 +90,7 @@ classdef al_eyeTrackerTobii
             taskParam.timingParam.refTitta = taskParam.EThndl.buffer.systemTimestamp();
             taskParam.talkToProLab.sendCustomEvent([], sprintf('Start Ref start with Block %d', taskParam.subject.startsWithBlock)); % by defalut, current time is taken. This appears in Tobii Pro Lab output
 
-            % 6. Change the Intro status based on which block to start
-            % For the children version, intro will be skipped if starts in the middle
-            if isstring(taskParam.gParam.eyeTrackerTobiiTest) && taskParam.subject.startsWithBlock ~= 1
-                taskParam.gParam.runIntro = false;
-                disp("Skipping Intro");
-            end
+            
 
         end
 
