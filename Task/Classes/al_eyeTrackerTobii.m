@@ -129,12 +129,12 @@ classdef al_eyeTrackerTobii
                 answer = inputdlg(prompt,dlgtitle,fieldsize,definput);
                 ListenChar(2);
 
-                if ~isempty(answer) && strcmp(answer{1},"Y")
+                if ~isempty(answer) && (strcmp(answer{1},"Y")|strcmp(answer{1},"y"))
                     al_eyeTrackerTobii.tittaTobiiCalibration(taskParam);
                     break
                 end
 
-                if ~isempty(answer) && strcmp(answer{1},"N")
+                if ~isempty(answer) && (strcmp(answer{1},"N")|strcmp(answer{1},"n"))
                     disp("Skipping calibration.");
                     break
                 end
