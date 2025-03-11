@@ -26,7 +26,7 @@ classdef al_eyeTrackerTobii
             
             
             % 0. Check if ID is for children and if Tobii is required
-            if ~strncmp(taskParam.subject.ID, '62',2)
+            if ~(strncmp(taskParam.subject.ID, '62',2) || strcmp(taskParam.gParam.eyeTrackerTobiiTest,"test_alone_confetti") || strcmp(taskParam.gParam.eyeTrackerTobiiTest,"test_temp"))
                 error('Invalid ID! Format should be 62xxx');
             end
 
@@ -108,7 +108,7 @@ classdef al_eyeTrackerTobii
             
             if ~isempty(openWindows)
                 win = openWindows(1);  % Get the first open window
-                disp(['Detected window: ', num2str(win)]);
+                % disp(['Detected window: ', num2str(win)]);
             else
                 disp('No open windows found!');
             end
@@ -226,7 +226,13 @@ classdef al_eyeTrackerTobii
                     ListenChar(2);
                 end
             
-                tobii.calVal{1} = taskParam.EThndl.calibrateAdvanced([wpntP wpntO]);
+                try
+                    Tobii.calVal{1} = taskParam.EThndl.calibrateAdvanced([wpntP wpntO]);
+                catch
+                    warning('calibration not sucessful');
+                    ListenChar(0);
+                end
+
                 ListenChar(0);
             
                 Screen('Close', wpntO);

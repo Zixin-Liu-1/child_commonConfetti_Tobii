@@ -43,7 +43,7 @@ if taskParam.gParam.eyeTracker
 end
 
 % Ask for calibration and start recording Titta data into buffer
-if taskParam.gParam.eyeTrackerTobii
+if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
     taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
     al_eyeTrackerTobii.startTittaRecording(taskParam);
 end
@@ -450,7 +450,7 @@ if ~taskParam.unitTest.run
 
     % Save Titta data
     % -----------------
-    if taskParam.gParam.eyeTrackerTobii
+    if taskParam.gParam.eyeTrackerTobii && strcmp(condition,'main')
         al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
     end
 

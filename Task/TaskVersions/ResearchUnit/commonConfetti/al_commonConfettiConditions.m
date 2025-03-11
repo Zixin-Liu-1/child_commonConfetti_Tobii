@@ -30,7 +30,7 @@ passiveViewingCondition = taskParam.gParam.passiveViewing;
 % to save et though.
 
 % eyetracker Tobii initiation
-if isstring(taskParam.gParam.eyeTrackerTobiiTest)
+if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
     taskParam = al_eyeTrackerTobii.startTobii(taskParam);
 end
 

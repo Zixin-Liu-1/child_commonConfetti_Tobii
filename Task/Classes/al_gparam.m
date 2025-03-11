@@ -153,9 +153,9 @@ classdef al_gparam
             self.duckMovementRange = 5;
 
             self.eyeTrackerTobii = false;
-            self.eyeTrackerTobiiTest = nan;
-            self.localAddress = nan;
-            self.TobiiAddress = nan;
+            self.eyeTrackerTobiiTest = "";
+            self.localAddress = '';
+            self.TobiiAddress = '';
 
         end
     end

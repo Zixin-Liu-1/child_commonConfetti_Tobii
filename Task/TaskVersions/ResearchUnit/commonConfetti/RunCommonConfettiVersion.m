@@ -82,9 +82,9 @@ if ~exist('config', 'var') || isempty(config)
     
     % for Tobii eyetracker
     config.eyeTrackerTobii = false;
-    config.eyeTrackerTobiiTest = nan; 
-    config.localAddress = nan;
-    config.TobiiAddress = nan;
+    config.eyeTrackerTobiiTest = ""; 
+    config.localAddress = '';
+    config.TobiiAddress = '';
     
     if config.sendTrigger
         [config.session, ~] = IOPort( 'OpenSerialPort', 'COM3' );

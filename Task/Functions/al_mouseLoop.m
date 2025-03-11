@@ -24,7 +24,7 @@ end
 screensize = taskParam.display.screensize;
 
 % add in a restriction of mouse for children's multi-screens
-if isstring(taskParam.gParam.eyeTrackerTobiiTest)
+if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
     al_eyeTrackerTobii.restrictMouse(screensize);
 end
 
