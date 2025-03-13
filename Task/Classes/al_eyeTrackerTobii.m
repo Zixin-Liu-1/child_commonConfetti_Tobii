@@ -34,7 +34,9 @@ classdef al_eyeTrackerTobii
             % For the children version, intro will be skipped if starts in the middle
             if taskParam.subject.startsWithBlock ~= 1
                 taskParam.gParam.runIntro = false;
-                disp("Skipping Intro");
+                disp('Skipping Intro');
+                taskParam.gParam.baselineArousal = false;
+                disp('Skipping baseline arousal');
             end
 
             if ~taskParam.gParam.eyeTrackerTobii
