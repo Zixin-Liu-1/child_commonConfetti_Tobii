@@ -42,12 +42,6 @@ if taskParam.gParam.eyeTracker
     taskParam = taskParam.eyeTracker.startRecording(taskParam);
 end
 
-% Ask for calibration and start recording Titta data into buffer
-if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
-    taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-    al_eyeTrackerTobii.startTittaRecording(taskParam);
-end
-
 % Wait for scanner trigger
 if taskParam.gParam.scanner
 
@@ -448,11 +442,6 @@ if ~taskParam.unitTest.run
         Eyelink('StopRecording');
     end
 
-    % Save Titta data
-    % -----------------
-    if taskParam.gParam.eyeTrackerTobii && strcmp(condition,'main')
-        al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
-    end
 
     % Save behavioral data
     % --------------------

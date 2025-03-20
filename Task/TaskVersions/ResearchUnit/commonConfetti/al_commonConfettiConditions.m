@@ -218,6 +218,14 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
         file_name_suffix = '';
 
     end
+    
+    % Ask for calibration and start recording Titta data into buffer for
+    % children
+    if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
+        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+        al_eyeTrackerTobii.startTittaRecording(taskParam);
+    end
+
 
     % Indicate condition
     if noiseCondition == 1
@@ -230,6 +238,12 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
 
     % Run task
     data = al_confettiLoop(taskParam, 'main', taskData, trial, file_name_suffix);
+
+    % Save Titta data
+    % -----------------
+    if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
+        al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
+    end
 
     % Transform to structure for integration test
     data = saveobj(data);

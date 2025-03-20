@@ -19,9 +19,11 @@ if taskParam.gParam.eyeTracker
     taskParam = taskParam.eyeTracker.startRecording(taskParam);
 end
 
-% Calibration for Tobii Pro Lab before arousal
-if taskParam.gParam.eyeTrackerTobii
-    taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+% Calibration for Tobii Pro Lab only for the first baseline
+if taskParam.gParam.eyeTrackerTobii 
+    if strcmp(file_name_suffix, '_a1')
+        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+    end
     al_eyeTrackerTobii.startTittaRecording(taskParam);
 end
 
