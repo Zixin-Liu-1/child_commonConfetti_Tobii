@@ -221,12 +221,17 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
     end
     
     % Ask for calibration and start recording Titta data into buffer for
-    % children
-    if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
-        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-        al_eyeTrackerTobii.startTittaRecording(taskParam);
+    % children and add in a restriction of mouse for children's multi-screens
+    if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
+        
+        if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
+            taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+            al_eyeTrackerTobii.startTittaRecording(taskParam);
+        end
+        
+        al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
+    
     end
-
 
     % Indicate condition
     if noiseCondition == 1

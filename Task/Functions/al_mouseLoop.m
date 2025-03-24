@@ -23,10 +23,7 @@ end
 % Extract screen coordinates
 screensize = taskParam.display.screensize;
 
-% add in a restriction of mouse for children's multi-screens
-if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
-    al_eyeTrackerTobii.restrictMouse(screensize);
-end
+
 
 while 1
 
