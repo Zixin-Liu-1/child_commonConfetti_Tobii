@@ -330,6 +330,8 @@ classdef al_eyeTrackerTobii
                 disp('Session data saved successfully using Tobii Pro Lab.');
             catch
                 warning('Session data not saved using Tobii Pro Lab.');
+                taskParam.talkToProLab.disconnect();
+                taskParam.EThndl.deInit();
             end
            
             taskParam.talkToProLab.disconnect();
