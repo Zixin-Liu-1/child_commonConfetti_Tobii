@@ -129,6 +129,12 @@ end
 % 5. Optionally baseline arousal
 % ------------------------------
 
+% Check the current conditions to see if we need baseline at the end 
+if taskParam.subject.startsWithBlock == 1 && (~taskParam.gParam.baselineArousal)
+    taskParam.gParam.baselineArousal = true;
+    disp(taskParam.gParam.baselineArousal);
+end
+            
 if taskParam.gParam.baselineArousal
 
     % Display pupil info

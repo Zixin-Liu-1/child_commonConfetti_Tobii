@@ -77,7 +77,6 @@ classdef al_eyeTrackerTobii
             temp_Tobii_Address = taskParam.gParam.TobiiAddress;
             taskParam.talkToProLab = TalkToProLab(temp_Project, temp_Tobii_Address);
 
-
             % 4. Start Recording, for Tobii, creating file name with the # of starting block
             tempID = sprintf('commonConfetti_%s%s_%d',taskParam.subject.ID, '_et',taskParam.subject.startsWithBlock);
             taskParam.talkToProLab.createParticipant(tempID, false); % false = does not allow dublicates
@@ -270,7 +269,7 @@ classdef al_eyeTrackerTobii
         end
 
 
-        function saveTittaData(taskParam, file_name_suffix)
+        function saveTittaData(taskParam, varargin)
             % This function stops Titta recording in buffer and save Titta data for each
             % block to avoid memory problems
             %
@@ -284,7 +283,7 @@ classdef al_eyeTrackerTobii
                 
                 % Saving the data on Matlab Computer                
                 try
-                    tempID = sprintf('commonConfetti_%s%s%s',taskParam.subject.ID, '_et',file_name_suffix(end-2:end));
+                    tempID = sprintf('commonConfetti_%s%s%s',taskParam.subject.ID, '_et',varargin{1}(end-2:end));
                 catch
                     warning('Not in Baseline or a block.');
                     tempID = sprintf('commonConfetti_%s%s%s',taskParam.subject.ID, '_et','_notData');
@@ -319,19 +318,26 @@ classdef al_eyeTrackerTobii
             %   Output
             %       None
 
+            openWindows = Screen('Windows');
             
+            if ~isempty(openWindows)
+                win = openWindows(1);  % Get the first open window
+                % disp(['Detected window: ', num2str(win)]);
+            else
+                disp('No open windows found!');
+            end
+            
+            % remove mouse confinement
+            Screen('ConstrainCursor', win, 0);
             disp('Saving Tobii eyetracking data using Tobii Pro Lab.');
-            
+ 
             taskParam.talkToProLab.stopRecording();
-            
             try
                 % Saving the data on the Tobii Computer after stop recording    
                 taskParam.talkToProLab.finalizeRecording();
                 disp('Session data saved successfully using Tobii Pro Lab.');
             catch
                 warning('Session data not saved using Tobii Pro Lab.');
-                taskParam.talkToProLab.disconnect();
-                taskParam.EThndl.deInit();
             end
            
             taskParam.talkToProLab.disconnect();
