@@ -19,14 +19,6 @@ if taskParam.gParam.eyeTracker
     taskParam = taskParam.eyeTracker.startRecording(taskParam);
 end
 
-% Calibration for Tobii Pro Lab only for the first baseline
-if taskParam.gParam.eyeTrackerTobii 
-    if strcmp(file_name_suffix, '_a1')
-        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-    end
-    al_eyeTrackerTobii.startTittaRecording(taskParam);
-end
-
 % Define color and random color order (black and white)
 arousalColors = [taskParam.colors.black; taskParam.colors.white];
 arousalColorsNames = {'black', 'white'};
@@ -89,10 +81,7 @@ if taskParam.gParam.eyeTracker
     Eyelink('StopRecording');
 end
 
-% Save Titta data
-% -----------------
-if taskParam.gParam.eyeTrackerTobii
-    al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
 end
+
 
 

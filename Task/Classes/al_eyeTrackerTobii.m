@@ -35,9 +35,7 @@ classdef al_eyeTrackerTobii
             if taskParam.subject.startsWithBlock ~= 1
                 taskParam.gParam.runIntro = false;
                 disp('Skipping Intro');
-                taskParam.gParam.baselineArousal = false;
-                disp('Skipping baseline arousal');
-            end
+            end 
 
             if ~taskParam.gParam.eyeTrackerTobii
                 disp('Not using Tobii for this task.');
@@ -118,6 +116,10 @@ classdef al_eyeTrackerTobii
             % remove mouse confinement
             Screen('ConstrainCursor', win, 0);
             
+             % Check the current conditions to see if we need baseline at the end 
+            if taskParam.subject.startsWithBlock == 1 && (~taskParam.gParam.baselineArousal)
+                taskParam.gParam.baselineArousal = true;
+            end
             
             % Calibration pop-up
             while 1
@@ -300,6 +302,9 @@ classdef al_eyeTrackerTobii
             catch 
                 warning('Session data not saved using Titta.');
             end
+
+           
+              
 
         end
 

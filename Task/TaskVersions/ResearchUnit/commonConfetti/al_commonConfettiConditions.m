@@ -88,6 +88,12 @@ taskParam.cannon = taskParam.cannon.al_staticConfettiCloud(taskParam.trialflow.c
 
 if taskParam.gParam.baselineArousal && taskParam.subject.startsWithBlock == 1
 
+    % Calibration for Tobii
+    if taskParam.gParam.eyeTrackerTobii 
+        taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+        al_eyeTrackerTobii.startTittaRecording(taskParam);
+    end
+
     % Display pupil info
     if taskParam.gParam.customInstructions
         header = taskParam.instructionText.firstPupilBaselineHeader;
@@ -102,7 +108,13 @@ if taskParam.gParam.baselineArousal && taskParam.subject.startsWithBlock == 1
     al_bigScreen(taskParam, header, txt, feedback, true);
 
     % Measure baseline arousal
-    al_baselineArousal(taskParam, '_a1')
+    al_baselineArousal(taskParam, '_a1');
+
+    % Save Titta data
+    % -----------------
+    if taskParam.gParam.eyeTrackerTobii
+        al_eyeTrackerTobii.saveTittaData(taskParam,'_a1');
+    end
 
 end
 
@@ -132,8 +144,19 @@ if taskParam.gParam.baselineArousal
     feedback = false; % indicate that this is the instruction mode
     al_bigScreen(taskParam, header, txt, feedback, true);
 
+    % Tobii Data record
+    if taskParam.gParam.eyeTrackerTobii 
+        al_eyeTrackerTobii.startTittaRecording(taskParam);
+    end
+
     % Meaure baseline arousal
-    al_baselineArousal(taskParam, '_a2')
+    al_baselineArousal(taskParam, '_a2');
+
+    % Save Titta data
+    % -----------------
+    if taskParam.gParam.eyeTrackerTobii
+        al_eyeTrackerTobii.saveTittaData(taskParam,'_a2');
+    end
 
 end
 % ------------------------------
@@ -245,7 +268,7 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
     % Run task
     data = al_confettiLoop(taskParam, 'main', taskData, trial, file_name_suffix);
 
-    % Save Titta data
+    % Save Titta data if using Tobii
     % -----------------
     if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
         al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
