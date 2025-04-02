@@ -33,6 +33,9 @@ passiveViewingCondition = taskParam.gParam.passiveViewing;
 if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
     taskParam = al_eyeTrackerTobii.startTobii(taskParam);
     runIntro = taskParam.gParam.runIntro;
+    if taskParam.gParam.eyeTrackerTobii
+        taskParam = al_eyeTrackerTobii.baselineArousalTobii(taskParam);
+    end
 end
 
 if runIntro && passiveViewingCondition == false

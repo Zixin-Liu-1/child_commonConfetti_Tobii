@@ -27,6 +27,9 @@ classdef al_eyeTrackerTobii
             
             % 0. Check if ID is for children and if Tobii is required
             if ~(strncmp(taskParam.subject.ID, '62',2) || strcmp(taskParam.gParam.eyeTrackerTobiiTest,"test_alone_confetti") || strcmp(taskParam.gParam.eyeTrackerTobiiTest,"test_temp"))
+                ListenChar();
+                ShowCursor;
+                Screen('CloseAll');
                 error('Invalid ID! Format should be 62xxx');
             end
 
@@ -64,22 +67,30 @@ classdef al_eyeTrackerTobii
             temp_eyeTrackerSettings.UI.setup.fixBackColor  = fixClrs(1);
             temp_eyeTrackerSettings.UI.setup.fixFrontColor = fixClrs(2);
 
-            
-            % 2. Initialisation with project settings through taskParam
-            taskParam.EThndl    = Titta(temp_eyeTrackerSettings);
-            temp_local_address = taskParam.gParam.localAddress;
-            taskParam.EThndl.init(temp_local_address);
-            
-            
-            % 3. Initialisation of Tobii Pro Lab 
-            % project name is passed on from taskParam
-            temp_Project = taskParam.gParam.eyeTrackerTobiiTest;
-            temp_Tobii_Address = taskParam.gParam.TobiiAddress;
-            taskParam.talkToProLab = TalkToProLab(temp_Project, temp_Tobii_Address);
-
-            % 4. Start Recording, for Tobii, creating file name with the # of starting block
-            tempID = sprintf('commonConfetti_%s%s_%d',taskParam.subject.ID, '_et',taskParam.subject.startsWithBlock);
-            taskParam.talkToProLab.createParticipant(tempID, false); % false = does not allow dublicates
+            try
+                % 2. Initialisation with project settings through taskParam
+                taskParam.EThndl    = Titta(temp_eyeTrackerSettings);
+                temp_local_address = taskParam.gParam.localAddress;
+                taskParam.EThndl.init(temp_local_address);
+                
+                
+                % 3. Initialisation of Tobii Pro Lab 
+                % project name is passed on from taskParam
+                temp_Project = taskParam.gParam.eyeTrackerTobiiTest;
+                temp_Tobii_Address = taskParam.gParam.TobiiAddress;
+                taskParam.talkToProLab = TalkToProLab(temp_Project, temp_Tobii_Address);
+    
+                % 4. Start Recording, for Tobii, creating file name with the # of starting block
+                tempID = sprintf('commonConfetti_%s%s_%d',taskParam.subject.ID, '_et',taskParam.subject.startsWithBlock);
+                taskParam.talkToProLab.createParticipant(tempID, false); % false = does not allow dublicates
+                
+                
+            catch
+                ListenChar();
+                ShowCursor;
+                Screen('CloseAll');
+                error('Cannot Start Tobii, please check project name');
+            end
             
             % Screen height and width
             taskParam.talkToProLab.startRecording(tempID, taskParam.display.screensizePart(1), taskParam.display.screensizePart(2));
@@ -89,7 +100,6 @@ classdef al_eyeTrackerTobii
             taskParam.timingParam.refTitta = taskParam.EThndl.buffer.systemTimestamp();
             taskParam.talkToProLab.sendCustomEvent([], sprintf('Start Ref start with Block %d', taskParam.subject.startsWithBlock)); % by defalut, current time is taken. This appears in Tobii Pro Lab output
 
-            
 
         end
 
@@ -116,9 +126,9 @@ classdef al_eyeTrackerTobii
             Screen('ConstrainCursor', win, 0);
             
              % Check the current conditions to see if we need baseline at the end 
-            if taskParam.subject.startsWithBlock == 1 && (~taskParam.gParam.baselineArousal)
-                taskParam.gParam.baselineArousal = true;
-            end
+            % if taskParam.subject.startsWithBlock == 1 && (~taskParam.gParam.baselineArousal)
+            %     taskParam.gParam.baselineArousal = true;
+            % end
             
             % Calibration pop-up
             while 1
@@ -402,10 +412,42 @@ classdef al_eyeTrackerTobii
             end
 
         end
+
+        function taskParam = baselineArousalTobii(taskParam)
+
+           % Calibration for Tobii
+            if taskParam.gParam.eyeTrackerTobii 
+                taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+                al_eyeTrackerTobii.startTittaRecording(taskParam);
+            end
+
+            % Display pupil info
+            if taskParam.gParam.customInstructions
+                header = taskParam.instructionText.firstPupilBaselineHeader;
+                txt = taskParam.instructionText.firstPupilBaseline;
+            else
+                header = 'Erste Pupillenmessung';
+                txt=['Sie werden jetzt für drei Minuten verschiedene Farben auf dem Bildschirm sehen. '...
+                    'Bitte fixieren Sie Ihren Blick währenddessen auf den kleinen Punkt in der Mitte des Bildschirms.'];
+            end
+        
+            feedback = false; % indicate that this is the instruction mode
+            al_bigScreen(taskParam, header, txt, feedback, true);
+        
+            % Measure baseline arousal
+            al_baselineArousal(taskParam, '_a1');
+        
+            % Save Titta data
+            % -----------------
+            if taskParam.gParam.eyeTrackerTobii
+                al_eyeTrackerTobii.saveTittaData(taskParam,'_a1');
+            end
+            
+        end
         
     end
-        
 end
+
 
 
 
