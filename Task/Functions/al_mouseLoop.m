@@ -27,6 +27,10 @@ screensize = taskParam.display.screensize;
 
 while 1
 
+    if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
+         al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
+    end
+    
     % If no text as input, assume we're in the main task and just present
     % background if required
     if ~exist('txt', 'var') || isempty(txt)

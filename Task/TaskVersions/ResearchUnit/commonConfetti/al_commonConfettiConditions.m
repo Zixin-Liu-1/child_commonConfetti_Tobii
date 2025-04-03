@@ -261,7 +261,7 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
             al_eyeTrackerTobii.startTittaRecording(taskParam);
         end
         
-        al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
+         al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
     
     end
 

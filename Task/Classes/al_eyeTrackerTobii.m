@@ -82,8 +82,11 @@ classdef al_eyeTrackerTobii
     
                 % 4. Start Recording, for Tobii, creating file name with the # of starting block
                 tempID = sprintf('commonConfetti_%s%s_%d',taskParam.subject.ID, '_et',taskParam.subject.startsWithBlock);
-                taskParam.talkToProLab.createParticipant(tempID, false); % false = does not allow dublicates
-                
+                if ~strcmp(taskParam.subject.ID,'62000')
+                    taskParam.talkToProLab.createParticipant(tempID, false); % false = does not allow dublicates
+                else
+                    taskParam.talkToProLab.createParticipant(62000, true);
+                end
                 
             catch
                 ListenChar();
