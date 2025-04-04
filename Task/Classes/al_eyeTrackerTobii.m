@@ -374,7 +374,7 @@ classdef al_eyeTrackerTobii
                 openWindows = Screen('Windows');
                 if ~isempty(openWindows)
                     win = openWindows(1);  % Get the first open window
-                    disp(['Detected window: ', num2str(win)]);
+                    % disp(['Detected window: ', num2str(win)]);
                 else
                     disp('No open windows found!');
                     return; % Exit function if no windows are found
