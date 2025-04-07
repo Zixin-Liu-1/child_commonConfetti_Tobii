@@ -379,7 +379,7 @@ classdef al_eyeTrackerTobii
                     disp('No open windows found!');
                     return; % Exit function if no windows are found
                 end
-                
+                Screen('ConstrainCursor', win, 0);
                 Screen('ConstrainCursor', win, 1, temp_screenSize);
             
         end
@@ -403,10 +403,24 @@ classdef al_eyeTrackerTobii
                     temp_Tevent = sprintf('Baseline Colour %s ID %i', Tevent, triggerID);
                 else
                     temp_name = taskData.savename;
+                    if triggerID == 4
+                        if (taskData.triggers(trial,4) == 0)
+                            Tevent = append(Tevent,'1');
+                            
+                        elseif (taskData.triggers(trial,6) == 0)
+                            Tevent = append(Tevent,'2');
+                            
+                        elseif (taskData.triggers(trial,8) == 0)
+                            Tevent = append(Tevent,'3');
+                            
+                        end
+                    end
                     temp_Tevent = sprintf('Block %s Trial %i Event %s ID %i', temp_name(end), trial, Tevent, triggerID);
                 end
+                
                 temp_Tevent = convertCharsToStrings(temp_Tevent);
                 
+
                 % first send to Tobii Pro Lab
                 taskParam.talkToProLab.sendCustomEvent([], temp_Tevent, []);
                 
@@ -418,7 +432,12 @@ classdef al_eyeTrackerTobii
 
         function taskParam = baselineArousalTobii(taskParam)
 
-           % Calibration for Tobii
+            if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp'))
+                % Skipping for testing
+                disp('test_temp BA working.');
+                return
+            end
+            % Calibration for Tobii
             if taskParam.gParam.eyeTrackerTobii 
                 taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
                 al_eyeTrackerTobii.startTittaRecording(taskParam);

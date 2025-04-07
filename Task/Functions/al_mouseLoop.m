@@ -27,10 +27,8 @@ screensize = taskParam.display.screensize;
 
 while 1
 
-    if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
-         al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
-    end
     
+ 
     % If no text as input, assume we're in the main task and just present
     % background if required
     if ~exist('txt', 'var') || isempty(txt)
@@ -57,6 +55,12 @@ while 1
         % Get current mouse coordinates
         [x,y,buttons] = GetMouse(taskParam.display.window.onScreen);
 
+        if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
+            al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
+            WaitSecs(0.01);
+        end
+                
+        
         %% This is a temporary implementation for the joystick which might be updated in the future
         if taskParam.gParam.uke
 
