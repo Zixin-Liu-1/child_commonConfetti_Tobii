@@ -442,6 +442,12 @@ if ~taskParam.unitTest.run
         Eyelink('StopRecording');
     end
 
+    % Save Titta data if using Tobii
+    % -----------------
+    if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
+        al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
+    end
+
 
     % Save behavioral data
     % --------------------

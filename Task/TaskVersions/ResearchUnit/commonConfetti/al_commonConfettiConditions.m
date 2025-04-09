@@ -264,11 +264,7 @@ for b = taskParam.subject.startsWithBlock:taskParam.gParam.nBlocks
     % Run task
     data = al_confettiLoop(taskParam, 'main', taskData, trial, file_name_suffix);
 
-    % Save Titta data if using Tobii
-    % -----------------
-    if taskParam.gParam.eyeTrackerTobii && strcmp(taskParam.trialflow.exp,'exp')
-        al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
-    end
+    
 
     % Transform to structure for integration test
     data = saveobj(data);

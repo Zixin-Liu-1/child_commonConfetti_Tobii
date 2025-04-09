@@ -432,23 +432,7 @@ classdef al_eyeTrackerTobii
 
         function taskParam = baselineArousalTobii(taskParam,file_name_suffix)
 
-           if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp'))
-                % Skipping for testing
-                disp('test_temp BA working.');
-                return
-           end
-           try 
-                taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
-                al_eyeTrackerTobii.startTittaRecording(taskParam);
-           catch
-               ListenChar();
-               
-               Screen('CloseAll');
-               warning('Calibration failed')
-               return
-            end
-
-            % Display pupil info
+            taskParam.gParam.baselineArousal = false;% Display pupil info
             if taskParam.gParam.customInstructions
                 header = taskParam.instructionText.firstPupilBaselineHeader;
                 txt = taskParam.instructionText.firstPupilBaseline;
@@ -471,16 +455,26 @@ classdef al_eyeTrackerTobii
             feedback = false; % indicate that this is the instruction mode
             al_bigScreen(taskParam, header, txt, feedback, true);
         
+            
+           if strcmp(file_name_suffix, '_a1')
+               taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+           end
+           al_eyeTrackerTobii.startTittaRecording(taskParam);
+
+           if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp'))
+               % Skipping for testing
+               disp('test_temp BA working.');
+               al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
+               return
+           end
             % Measure baseline arousal
             al_baselineArousal(taskParam, file_name_suffix);
         
             % Save Titta data
-            % -----------------
-            if taskParam.gParam.eyeTrackerTobii
-                al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
-            end
-
-            taskParam.gParam.baselineArousal = false;
+            al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
+            
+            
+            disp(taskParam.gParam.baselineArousal);
             
         end
         
