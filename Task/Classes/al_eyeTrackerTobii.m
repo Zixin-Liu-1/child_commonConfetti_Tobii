@@ -430,17 +430,22 @@ classdef al_eyeTrackerTobii
 
         end
 
-        function taskParam = baselineArousalTobii(taskParam)
+        function taskParam = baselineArousalTobii(taskParam,file_name_suffix)
 
             if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp'))
                 % Skipping for testing
                 disp('test_temp BA working.');
                 return
             end
-            % Calibration for Tobii
-            if taskParam.gParam.eyeTrackerTobii 
+           try 
                 taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
                 al_eyeTrackerTobii.startTittaRecording(taskParam);
+           catch
+               ListenChar();
+               
+               Screen('CloseAll');
+               warning('Calibration failed')
+               return
             end
 
             % Display pupil info
@@ -448,21 +453,31 @@ classdef al_eyeTrackerTobii
                 header = taskParam.instructionText.firstPupilBaselineHeader;
                 txt = taskParam.instructionText.firstPupilBaseline;
             else
-                header = 'Erste Pupillenmessung';
-                txt=['Sie werden jetzt für drei Minuten verschiedene Farben auf dem Bildschirm sehen. '...
+                if strcmp(file_name_suffix, '_a1')
+                    header = 'Erste Pupillenmessung';
+                    txt=['Sie werden jetzt für drei Minuten verschiedene Farben auf dem Bildschirm sehen. '...
                     'Bitte fixieren Sie Ihren Blick währenddessen auf den kleinen Punkt in der Mitte des Bildschirms.'];
+                elseif strcmp(file_name_suffix, '_a2')
+                    header = 'Erste Pupillenmessung';
+                    txt=['Sie werden jetzt für drei Minuten verschiedene Farben auf dem Bildschirm sehen. '...
+                    'Bitte fixieren Sie Ihren Blick währenddessen auf den kleinen Punkt in der Mitte des Bildschirms.'];
+                else
+                    warning('Unidentified Baseline, skipping');
+                    return
+                end
+   
             end
         
             feedback = false; % indicate that this is the instruction mode
             al_bigScreen(taskParam, header, txt, feedback, true);
         
             % Measure baseline arousal
-            al_baselineArousal(taskParam, '_a1');
+            al_baselineArousal(taskParam, file_name_suffix);
         
             % Save Titta data
             % -----------------
             if taskParam.gParam.eyeTrackerTobii
-                al_eyeTrackerTobii.saveTittaData(taskParam,'_a1');
+                al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
             end
             
         end
