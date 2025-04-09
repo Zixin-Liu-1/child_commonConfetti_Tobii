@@ -129,6 +129,12 @@ if taskParam.subject.startsWithBlock == 1 && (~taskParam.gParam.baselineArousal)
     taskParam.gParam.baselineArousal = true;
     disp(taskParam.gParam.baselineArousal);
 end
+
+% For Tobii
+if taskParam.gParam.eyeTrackerTobii
+    taskParam = al_eyeTrackerTobii.baselineArousalTobii(taskParam,'_a2');
+    al_eyeTrackerTobii.saveTobiiData(taskParam);
+end
             
 if taskParam.gParam.baselineArousal
 
@@ -151,13 +157,7 @@ if taskParam.gParam.baselineArousal
 
 
 end
-% ------------------------------
-% 6. wrapping up for Tobii
-% ------------------------------
-if taskParam.gParam.eyeTrackerTobii
-    taskParam = al_eyeTrackerTobii.baselineArousalTobii(taskParam,'_a2');
-    al_eyeTrackerTobii.saveTobiiData(taskParam);
-end
+
 
 
 

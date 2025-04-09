@@ -432,11 +432,11 @@ classdef al_eyeTrackerTobii
 
         function taskParam = baselineArousalTobii(taskParam,file_name_suffix)
 
-            if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp'))
+           if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp'))
                 % Skipping for testing
                 disp('test_temp BA working.');
                 return
-            end
+           end
            try 
                 taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
                 al_eyeTrackerTobii.startTittaRecording(taskParam);
@@ -479,6 +479,8 @@ classdef al_eyeTrackerTobii
             if taskParam.gParam.eyeTrackerTobii
                 al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
             end
+
+            taskParam.gParam.baselineArousal = false;
             
         end
         
