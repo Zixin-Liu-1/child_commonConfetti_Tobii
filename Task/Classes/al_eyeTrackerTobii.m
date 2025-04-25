@@ -458,6 +458,8 @@ classdef al_eyeTrackerTobii
             
            if strcmp(file_name_suffix, '_a1')
                taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
+           elseif strcmp(file_name_suffix, '_a2')
+               taskParam.gParam.baselineArousalDuration =  taskParam.gParam.baselineArousalDuration/2;
            end
            al_eyeTrackerTobii.startTittaRecording(taskParam);
 
