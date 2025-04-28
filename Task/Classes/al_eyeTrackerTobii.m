@@ -79,7 +79,14 @@ classdef al_eyeTrackerTobii
                 temp_Project = taskParam.gParam.eyeTrackerTobiiTest;
                 temp_Tobii_Address = taskParam.gParam.TobiiAddress;
                 taskParam.talkToProLab = TalkToProLab(temp_Project, temp_Tobii_Address);
-    
+            catch
+                ListenChar();
+                ShowCursor;
+                Screen('CloseAll');
+                error('Cannot Initialise Tobii, please check opened Tobii (open as kokuadmin)');
+            end
+            
+            try
                 % 4. Start Recording, for Tobii, creating file name with the # of starting block
                 tempID = sprintf('commonConfetti_%s%s_%d',taskParam.subject.ID, '_et',taskParam.subject.startsWithBlock);
                 if ~strcmp(taskParam.subject.ID,'62000')
@@ -469,14 +476,13 @@ classdef al_eyeTrackerTobii
                al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
                return
            end
-            % Measure baseline arousal
-            al_baselineArousal(taskParam, file_name_suffix);
-        
-            % Save Titta data
-            al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
             
-            
-            disp(taskParam.gParam.baselineArousal);
+           % Measure baseline arousal
+           al_baselineArousal(taskParam, file_name_suffix);
+
+           % Save Titta data
+           al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);            
+           disp(taskParam.gParam.baselineArousal);
             
         end
         
