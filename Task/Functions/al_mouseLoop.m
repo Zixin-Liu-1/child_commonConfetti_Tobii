@@ -56,8 +56,8 @@ while 1
         [x,y,buttons] = GetMouse(taskParam.display.window.onScreen);
 
         if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gParam.eyeTrackerTobiiTest, ''))
-            al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
-            WaitSecs(0.01);
+            % al_eyeTrackerTobii.restrictMouse(taskParam.display.screensize);
+            
         end
                 
         

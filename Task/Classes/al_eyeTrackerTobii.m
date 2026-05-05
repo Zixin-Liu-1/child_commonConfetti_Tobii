@@ -388,6 +388,7 @@ classdef al_eyeTrackerTobii
                 end
                 Screen('ConstrainCursor', win, 0);
                 Screen('ConstrainCursor', win, 1, temp_screenSize);
+                disp(temp_screenSize);
             
         end
 
@@ -467,6 +468,9 @@ classdef al_eyeTrackerTobii
                taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
            elseif strcmp(file_name_suffix, '_a2')
                taskParam.gParam.baselineArousalDuration =  taskParam.gParam.baselineArousalDuration/2;
+               % Adding back calibration in case child needs an urgent
+               % break
+               taskParam = al_eyeTrackerTobii.startTobiiCalibration(taskParam);
            end
            al_eyeTrackerTobii.startTittaRecording(taskParam);
 
