@@ -60,7 +60,7 @@ if ~exist('config', 'var') || isempty(config)
     config.showConfettiThreshold = false;
     config.printTiming = true;
     config.hidePtbCursor = true;
-    config.dataDirectory = '~/Dropbox/AdaptiveLearning/DataDirectory';
+    config.dataDirectory = 'C:\Users\bbf2518\Downloads\temp';
     config.meg = false;
     config.scanner = false;
     config.eyeTracker = false;

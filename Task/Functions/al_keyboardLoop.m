@@ -100,6 +100,7 @@ while 1
     if (taskData.catchTrial(trial) == 1) || isequal(taskParam.trialflow.cannon, 'show cannon')
         al_drawCannon(taskParam, taskData.distMean(trial))
         al_aim(taskParam, taskData.distMean(trial))
+        disp('keyboardloop');
     else
         al_drawCross(taskParam)
     end

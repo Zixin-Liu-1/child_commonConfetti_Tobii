@@ -130,6 +130,7 @@ while 1
             % In regular versions, show cannon and cannon aim
             al_drawCannon(taskParam, taskData.distMean(trial))
             al_aim(taskParam, taskData.distMean(trial))
+            disp('mouseloop');
         end
 
     else
