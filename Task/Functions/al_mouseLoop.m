@@ -127,10 +127,16 @@ while 1
             al_showHelicopter(taskParam, taskData.distMean(trial))
             al_tickMark(taskParam, taskData.distMean(trial), 'aim');
         else
-            % In regular versions, show cannon and cannon aim
-            al_drawCannon(taskParam, taskData.distMean(trial))
-            al_aim(taskParam, taskData.distMean(trial))
-            disp('mouseloop');
+            al_drawCircle(taskParam)
+            Screen('DrawDots', taskParam.display.window.onScreen, taskParam.cannon.xyMatrixRing, taskParam.cannon.sCloud, taskParam.cannon.colvectCloud, [taskParam.display.window.centerX, taskParam.display.window.centerY], 1);
+            al_drawFixPoint(taskParam)
+            %al_tickMark(taskParam, taskData.pred(i), 'pred');
+            %taskParam = al_confettiOutcome(taskParam, taskData, i);
+
+            % % In regular versions, show cannon and cannon aim
+            % al_drawCannon(taskParam, taskData.distMean(trial))
+            % al_aim(taskParam, taskData.distMean(trial))
+            % 
         end
 
     else
