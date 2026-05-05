@@ -212,7 +212,9 @@ elseif passiveViewing
 end
 
 % Catch-trial probability
-catchTrialProb = 0.1;
+catchTrialProb = 0.8;
+% Altered for testing how catch trial should be done. 
+
 
 % Number of predictions above threshold and estimation-error size leading to repetition of block
 practiceTrialCriterionNTrials = 2;
