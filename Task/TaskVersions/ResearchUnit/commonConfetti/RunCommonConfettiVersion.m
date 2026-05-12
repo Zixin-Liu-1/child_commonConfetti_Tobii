@@ -271,7 +271,7 @@ end
 
 % Initialize general task parameters
 gParam = al_gparam();
-gParam.taskType = 'Hamburg';
+gParam.taskType = 'HamburgUninstruct';
 gParam.trials = trials;
 gParam.nBlocks = nBlocks;
 gParam.practTrialsVis = practTrialsVis;
