@@ -22,9 +22,9 @@ function al_commonConfettiUninstructInstructions(taskParam)
 % --------------------------------
 % Single screen combining all essential information
 
-if taskParam.gParam.customInstructions
-    txt = taskParam.instructionText.welcomeText; % todo: create uninstruct text
-else
+% if taskParam.gParam.customInstructions
+%     txt = taskParam.instructionText.welcomeText; % todo: create uninstruct text
+% else
     txt = ['Herzlich Willkommen zur Konfetti-Aufgabe!\n\n'...
         'Sie sehen einen Kreis, auf dem Konfetti erscheinen wird. '...
         'Ihre Aufgabe ist es, vorherzusagen, wo das Konfetti als nächstes '...
@@ -40,7 +40,7 @@ else
         'Bitte fixieren Sie Ihren Blick auf den Punkt in der Mitte '...
         'des Kreises und vermeiden Sie Augenbewegungen.\n\n'...
         'Es folgt zunächst ein kurzer Übungsdurchgang.'];
-end
+% end
 
 header = '';
 feedback = true;
