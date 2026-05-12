@@ -929,7 +929,36 @@ classdef al_taskDataMain
                 elseif isequal(self.taskType, 'Leipzig')
     
                     s.group = self.group;
-    
+
+                elseif isequal(self.taskType, 'HamburgUninstruct')
+
+                    % Uninstruct version of Hamburg: same saved fields
+                    % as Hamburg. Outcomes are generated normally and saved.
+                    s.group = self.group;
+                    s.nParticles = self.nParticles;
+                    s.confettiStd = self.confettiStd;
+                    s.dotCol = self.dotCol;
+                    s.initialTendency = self.initialTendency;
+                    s.timestampOnset = self.timestampOnset;
+                    s.timestampBaseline = self.timestampBaseline;
+                    s.timestampPrediction = self.timestampPrediction;
+
+                    s.timestampFixCross1 = self.timestampFixCross1;
+                    s.timestampFixCross2 = self.timestampFixCross2;
+                    s.timestampFixCross3 = self.timestampFixCross3;
+                    s.timestampOutcome = self.timestampOutcome;
+                    s.timestampShield = self.timestampShield;
+                    s.timestampOffset = self.timestampOffset;
+                    s.triggers = self.triggers;
+
+                    s.sacc = self.sacc;
+                    s.rotationRad = self.rotationRad;
+                    s.passiveViewing = self.passiveViewing;
+                    s.commitHash = self.commitHash;
+
+                    s.startRefTittaSys = self.startRefTittaSys;
+                    s.startRefTitta = self.startRefTitta;
+
                 else
     
                     %% Todo: get rid of this when everything else implemented

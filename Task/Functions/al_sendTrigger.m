@@ -222,7 +222,7 @@ elseif isequal(taskParam.gParam.taskType, 'HamburgEEG')
     end
 
     % Common task
-elseif isequal(taskParam.gParam.taskType, 'Hamburg')
+elseif isequal(taskParam.gParam.taskType, 'Hamburg') || isequal(taskParam.gParam.taskType, 'HamburgUninstructed')
 
     if isequal(Tevent, 'trialOnset')
         triggerID = 1;
