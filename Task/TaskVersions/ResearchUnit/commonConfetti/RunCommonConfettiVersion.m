@@ -332,6 +332,10 @@ trialflow.shield = 'variableWithSD';
 trialflow.shieldType = 'constant';
 trialflow.input = 'mouse';
 trialflow.colors = 'colorful';
+% Set condition if uninstruct
+if isequal(config.taskType, 'HamburgUninstruct')
+    trialflow.condition = 'uninstruct';
+end
 
 % ---------------------------------------------
 % Create object instance with cannon parameters

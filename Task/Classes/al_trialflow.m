@@ -14,7 +14,7 @@ classdef al_trialflow
             % followOutcome: control task Dresden
             % followCannon: control task Dresden
             % shield: shield practice
-            % uninstruct: practice for uninstructed version
+            % uninstruct: uninstructed, diff catch trial
 
         % Experiment vs. practice session: used for save string
         exp 
