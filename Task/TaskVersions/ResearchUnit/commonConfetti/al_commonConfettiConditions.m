@@ -38,8 +38,12 @@ if ~(isequal(taskParam.gParam.eyeTrackerTobiiTest, "") || isequal(taskParam.gPar
     end
 end
 
-if runIntro && passiveViewingCondition == false
+if runIntro && isequal(taskParam.gParam.taskType, 'HamburgUninstructed')
+    
+    al_commonConfettiUninstructInstructions(taskParam)
 
+elseif runIntro && passiveViewingCondition == false
+    
     al_commonConfettiInstructions(taskParam)
 
 elseif runIntro && passiveViewingCondition
