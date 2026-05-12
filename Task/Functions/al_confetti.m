@@ -121,7 +121,7 @@ for i = 1:nFrames
         
     % Draw circle, cannon, prediction spot
     al_drawCircle(taskParam)
-    if ~strcmp(taskParam.trialflow.cannon, 'hide cannon') || (taskData.catchTrial(currTrial) && ~isequal(taskParam.trialflow.condition, 'uninstruct'))
+    if ~strcmp(taskParam.trialflow.cannon, 'hide cannon') || (taskData.catchTrial(currTrial) && ~isequal(taskParam.gParam.taskType, 'HamburgUninstruct'))
         al_drawCannon(taskParam, taskData.distMean(currTrial))
     else
         % If cannon is hidden, show confetti cloud

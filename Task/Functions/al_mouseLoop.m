@@ -121,7 +121,7 @@ while 1
     % Show circle on screen
     al_drawCircle(taskParam)
 
-    if strcmp(taskParam.trialflow.cannon, 'show cannon') || (taskData.catchTrial(trial) && ~isequal(taskParam.trialflow.condition, 'uninstruct'))
+    if strcmp(taskParam.trialflow.cannon, 'show cannon') || (taskData.catchTrial(trial) && ~isequal(taskParam.gParam.taskType, 'HamburgUninstruct'))
         if strcmp(taskParam.trialflow.cannonType, 'helicopter')
             % In helicopter version, show heli and heli aim
             al_showHelicopter(taskParam, taskData.distMean(trial))
