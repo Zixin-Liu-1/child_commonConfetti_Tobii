@@ -25,6 +25,9 @@ screensize = taskParam.display.screensize;
 
 
 
+% Track whether uninstruct catch trial confetti has been generated
+catchTrialConfettiGenerated = false;
+
 while 1
 
     
@@ -137,6 +140,21 @@ while 1
         if isequal(taskParam.trialflow.confetti, 'show confetti cloud')
             Screen('DrawDots', taskParam.display.window.onScreen, taskParam.cannon.xyMatrixRing, taskParam.cannon.sCloud, taskParam.cannon.colvectCloud, [taskParam.display.window.centerX, taskParam.display.window.centerY], 1);
             al_drawFixPoint(taskParam)
+
+            % On uninstruct catch trials, show the outcome confetti
+            % during the prediction phase (mirroring how the cannon is
+            % shown on standard catch trials)
+            if isequal(taskParam.gParam.taskType, 'HamburgUninstruct') && taskData.catchTrial(trial)
+                if ~catchTrialConfettiGenerated
+                    % First frame: generate particles
+                    taskParam = al_confettiOutcome(taskParam, taskData, trial);
+                    catchTrialConfettiGenerated = true;
+                else
+                    % Subsequent frames: reuse existing particles
+                    al_confettiOutcome(taskParam, taskData, trial, false);
+                end
+            end
+
         elseif isequal(condition, 'cannonPract1') == false ||  isequal(condition, 'cannonPract2') == false
             % Otherwise just fixation cross
             al_drawFixPoint(taskParam)
