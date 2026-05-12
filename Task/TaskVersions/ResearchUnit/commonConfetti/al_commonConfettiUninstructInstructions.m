@@ -73,6 +73,9 @@ Screen('TextSize', taskParam.display.window.onScreen, taskParam.strings.textSize
 Screen('TextFont', taskParam.display.window.onScreen, 'Arial');
 
 % Load practice data
+% The .mat file contains a fully populated taskData object with
+% distMean, outcome, catchTrial, etc. already generated.
+% No need to call al_cannonData — just load and override outcome.
 taskData = load('hidCannonPracticeHamburgUninstruct.mat');
 taskData = taskData.taskData;
 taskData.saveAsStruct = true;
