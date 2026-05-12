@@ -333,7 +333,7 @@ trialflow.shieldType = 'constant';
 trialflow.input = 'mouse';
 trialflow.colors = 'colorful';
 % Set condition if uninstruct
-if isequal(config.taskType, 'HamburgUninstruct')
+if isequal(gParam.taskType, 'HamburgUninstruct')
     trialflow.condition = 'uninstruct';
 end
 
