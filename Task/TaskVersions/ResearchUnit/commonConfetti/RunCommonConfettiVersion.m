@@ -212,7 +212,7 @@ elseif passiveViewing
 end
 
 % Catch-trial probability
-catchTrialProb = 0.8;
+catchTrialProb = 0.1;
 % Altered for testing how catch trial should be done. 
 
 
