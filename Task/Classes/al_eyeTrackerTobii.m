@@ -83,7 +83,7 @@ classdef al_eyeTrackerTobii
                 ListenChar();
                 ShowCursor;
                 Screen('CloseAll');
-                error('Cannot Initialise Tobii, please check opened Tobii (open as kokuadmin)');
+                error('Cannot Initialise Tobii, please check opened Tobii project or if Pro Lab opened as kokuadmin');
             end
             
             try
@@ -99,7 +99,7 @@ classdef al_eyeTrackerTobii
                 ListenChar();
                 ShowCursor;
                 Screen('CloseAll');
-                error('Cannot Start Tobii, please check project name');
+                error('Cannot Start Tobii, please check project name or Participants (no duplicates allowed)');
             end
             
             % Screen height and width
@@ -439,7 +439,9 @@ classdef al_eyeTrackerTobii
 
         function taskParam = baselineArousalTobii(taskParam,file_name_suffix)
 
-            taskParam.gParam.baselineArousal = false;% Display pupil info
+            to_skip = ~taskParam.gParam.baselineArousal;
+
+            taskParam.gParam.baselineArousal = false;% wire around the original process
             if taskParam.gParam.customInstructions
                 header = taskParam.instructionText.firstPupilBaselineHeader;
                 txt = taskParam.instructionText.firstPupilBaseline;
@@ -470,9 +472,9 @@ classdef al_eyeTrackerTobii
            end
            al_eyeTrackerTobii.startTittaRecording(taskParam);
 
-           if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp'))
+           if (isequal(taskParam.gParam.eyeTrackerTobiiTest, "test_temp") || isequal(taskParam.gParam.eyeTrackerTobiiTest, 'test_temp') || to_skip)
                % Skipping for testing
-               disp('test_temp BA working.');
+               disp('test_temp BA working or skipping BA');
                al_eyeTrackerTobii.saveTittaData(taskParam,file_name_suffix);
                return
            end
