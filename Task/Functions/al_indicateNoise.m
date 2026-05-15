@@ -23,7 +23,19 @@ if ~exist('passiveViewing', 'var') || isempty(passiveViewing)
     passiveViewing = false;
 end
 
-if strcmp(noiseCondition, 'lowNoise') && variableShield == false
+if isequal(taskParam.gParam.taskType, 'HamburgUninstruct')
+
+    % Uninstruct version: no mention of cannon
+    header = 'Ein neuer Block beginnt';
+    txt = ['Zur Erinnerung:\n\n'...
+        'Die Größe des Eimers kann sich von Durchgang '...
+        'zu Durchgang ändern. Diese Veränderung können Sie nicht beeinflussen '...
+        'und auch nicht vorhersagen. Daher ist es immer die beste Strategie, '...
+        'den Eimer genau dorthin zu stellen, wo Sie denken, dass das Konfetti erscheinen wird.\n\n'...
+        'Der rosafarbene Strich zeigt Ihre letzte Vorhersage. Der schwarze '...
+        'Strich zeigt die Position der letzten Konfetti-Wolke.'];
+
+elseif strcmp(noiseCondition, 'lowNoise') && variableShield == false
 
     if isequal(taskParam.gParam.language, 'German')
         header = 'Genauere Konfetti-Kanone';
